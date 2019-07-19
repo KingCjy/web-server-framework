@@ -39,8 +39,6 @@ public class WasApplication {
 
     public static void run(Class<?> clazz, String[] args) {
         try {
-            Environment.basePackage = "asdf";
-            logger.info(Environment.basePackage);
             File root = getRootFolder(clazz);
             System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
             Tomcat tomcat = new Tomcat();

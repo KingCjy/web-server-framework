@@ -2,6 +2,7 @@ package com.kingcjy.was.core.di;
 
 import com.google.common.collect.Sets;
 import com.kingcjy.was.core.annotations.Component;
+import com.kingcjy.was.core.annotations.Configuration;
 import com.kingcjy.was.core.annotations.web.Controller;
 import com.kingcjy.was.core.annotations.web.Service;
 import org.reflections.Reflections;
@@ -16,6 +17,8 @@ public class BeanFactoryUtils {
     public static BeanFactory initBeanFactory(String basePackage) {
         Reflections reflections = new Reflections(basePackage, "com.kingcjy.was.core.configuration");
         Set<Class<?>> annotatedClassList = getTypesAnnotatedWith(reflections, Component.class, Controller.class, Service.class);
+
+        Set<Class<?>> annotationTest = getTypesAnnotatedWith(reflections, Configuration.class);
 
         beanFactory = new BeanFactory(annotatedClassList);
         return beanFactory;

@@ -7,6 +7,7 @@ import com.kingcjy.was.core.annotations.web.RequestMapping;
 import com.kingcjy.was.core.di.BeanFactory;
 import com.kingcjy.was.core.di.BeanFactoryUtils;
 import com.kingcjy.was.core.environment.Environment;
+import com.kingcjy.was.core.http.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +40,8 @@ public class DispatcherServlet extends HttpServlet {
         requestMapper = new RequestMapper();
         requestMapper.initMapping(methodList);
 
-        objectMapper = beanFactory.getBean(ObjectMapper.class);
+//        objectMapper = beanFactory.getBean(ObjectMapper.class);
+        objectMapper = new ObjectMapper();
     }
 
     @Override
@@ -54,10 +56,9 @@ public class DispatcherServlet extends HttpServlet {
         Method method = requestMapper.findMethod(requestURI);
         String result = getResult(method);
 
-        ServletOutputStream out = httpServletResponse.getOutputStream();
-        out.write(result.getBytes());
-        out.flush();
-        out.close();
+        httpServletResponse.setContentType(MediaType.APPLICATION_JSON);
+        httpServletResponse.setCharacterEncoding("utf8");
+        httpServletResponse.getWriter().write(result);
     }
 
     private String getResult(Method method) {
