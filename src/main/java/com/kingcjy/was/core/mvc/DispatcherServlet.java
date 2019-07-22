@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kingcjy.was.core.annotations.web.Controller;
 import com.kingcjy.was.core.annotations.web.GetMapping;
 import com.kingcjy.was.core.annotations.web.RequestMapping;
+import com.kingcjy.was.core.annotations.web.RequestMethod;
 import com.kingcjy.was.core.di.BeanFactory;
 import com.kingcjy.was.core.di.BeanFactoryUtils;
 import com.kingcjy.was.core.environment.Environment;
 import com.kingcjy.was.core.http.MediaType;
+import org.apache.tomcat.util.http.fileupload.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +37,14 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     public void init() {
-        beanFactory = BeanFactoryUtils.initBeanFactory("com.kingcjy.was.application");
+        logger.info("아니 내가먼저임");
+        beanFactory = BeanFactoryUtils.getBeanFactory();
         Collection<Method> methodList = beanFactory.getMethodsAnnotatedWith(RequestMapping.class);
         requestMapper = new RequestMapper();
         requestMapper.initMapping(methodList);
 
 //        objectMapper = beanFactory.getBean(ObjectMapper.class);
+
         objectMapper = new ObjectMapper();
     }
 
@@ -48,12 +52,13 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws ServletException, IOException {
         String requestURI = httpServletRequest.getRequestURI();
+        RequestMethod requestMethod = RequestMethod.valueOf(httpServletRequest.getMethod());
         logger.info("#============================================================#");
         logger.info("# API Path: " + requestURI);
-        logger.info("# API Method: " + httpServletRequest.getMethod());
+        logger.info("# API Method: " + requestMethod.name());
         logger.info("#============================================================#");
 
-        Method method = requestMapper.findMethod(requestURI);
+        Method method = requestMapper.findMethod(requestURI, requestMethod);
         String result = getResult(method);
 
         httpServletResponse.setContentType(MediaType.APPLICATION_JSON);
@@ -67,11 +72,21 @@ public class DispatcherServlet extends HttpServlet {
         }
         String result = "";
         try {
-            Object object = method.invoke(beanFactory.getBean(method.getDeclaringClass()));
+
+            for (Class<?> parameterType : method.getParameterTypes()) {
+                logger.info(parameterType.getName());
+            }
+            Object[] args = {};
+            Object object = method.invoke(beanFactory.getBean(method.getDeclaringClass()), args);
             result = objectMapper.writeValueAsString(object);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private Object[] findArguments(Class<?>[] parameterTypeArr) {
+
+        return null;
     }
 }

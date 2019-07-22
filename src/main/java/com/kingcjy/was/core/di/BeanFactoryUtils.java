@@ -15,12 +15,12 @@ public class BeanFactoryUtils {
     private static BeanFactory beanFactory;
 
     public static BeanFactory initBeanFactory(String basePackage) {
-        Reflections reflections = new Reflections(basePackage, "com.kingcjy.was.core.configuration");
+        Reflections reflections = new Reflections(basePackage, "com.kingcjy.was.core");
         Set<Class<?>> annotatedClassList = getTypesAnnotatedWith(reflections, Component.class, Controller.class, Service.class);
 
-        Set<Class<?>> annotationTest = getTypesAnnotatedWith(reflections, Configuration.class);
-
+        Set<Class<?>> configurationClass = getTypesAnnotatedWith(reflections, Configuration.class);
         beanFactory = new BeanFactory(annotatedClassList);
+        beanFactory.registerConfigurationClass(configurationClass);
         return beanFactory;
     }
 

@@ -1,6 +1,7 @@
 package com.kingcjy.was.core.di;
 
 import com.google.common.collect.Maps;
+import com.kingcjy.was.core.annotations.Bean;
 import com.kingcjy.was.core.annotations.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +24,14 @@ public class BeanFactory {
     private void initializeBeans(Set<Class<?>> classList) {
         for (Class<?> clazz : classList) {
             try {
-                registerBean(clazz, clazz.newInstance());
+                Class<?> tt = BeanFactory.class.getClassLoader().loadClass(clazz.getName());
+                registerBean(tt, tt.newInstance());
                 logger.info(clazz.getName() + " bean registered");
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
                 continue;
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -47,6 +51,7 @@ public class BeanFactory {
             }
         }
     }
+
 
     public void registerBean(Class<?> clazz, Object object) {
         if(beanList.containsKey(clazz)) {
@@ -91,5 +96,16 @@ public class BeanFactory {
             }
         }
         return list;
+    }
+
+    public void registerConfigurationClass(Set<Class<?>> configurationClass) {
+        for(Class<?> clazz : configurationClass) {
+
+            for(Method method : clazz.getDeclaredMethods()) {
+                if(method.getAnnotation(Bean.class) != null) {
+//                    Object object =
+                }
+            }
+        }
     }
 }

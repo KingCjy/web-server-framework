@@ -1,6 +1,7 @@
 package com.kingcjy.was.core.mvc;
 
 import com.kingcjy.was.core.annotations.web.RequestMapping;
+import com.kingcjy.was.core.annotations.web.RequestMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,26 +12,28 @@ import java.util.*;
 public class RequestMapper {
     private static final Logger logger = LoggerFactory.getLogger(RequestMapper.class);
 
-    private Map<String, Method> mappingList = new HashMap<>();
+    private Map<MethodInfo, Method> mappingList = new HashMap<>();
 
     void initMapping(Collection<Method> methodList) {
         logger.info("Initialized Request Mapping");
         methodList.forEach(method -> {
-            String uri = getRequestUri(method);
-            mappingList.put(uri, method);
-            logger.info("URI : [{}], Class : [{}], Method : {} mapped", uri, method.getDeclaringClass().getName(),  method.getName());
+            MethodInfo methodInfo = getMethodInfo(method);
+            mappingList.put(methodInfo, method);
+            logger.info("URI : [{}] [{}], Class : [{}], Method : {} mapped", methodInfo.getRequestMethod().name(), methodInfo.getUri() , method.getDeclaringClass().getName(),  method.getName());
         });
     }
 
-    public Method findMethod(String uri) {
-        return mappingList.get(uri);
+    public Method findMethod(String uri, RequestMethod method) {
+        return mappingList.get(new MethodInfo(uri, method));
     }
 
-    private String getRequestUri(Method method) {
+    private MethodInfo getMethodInfo(Method method) {
         String classRequestUri = getClassRequestUri(method);
         String methodRequestUri = getMethodRequestUri(method);
 
-        return classRequestUri + methodRequestUri;
+        RequestMethod requestMethod = getRequestMethod(method);
+
+        return new MethodInfo(classRequestUri + methodRequestUri, requestMethod);
     }
 
     private String getClassRequestUri(Method method) {
@@ -51,5 +54,15 @@ public class RequestMapper {
         }
 
         return requestMapping.value();
+    }
+
+    private RequestMethod getRequestMethod(Method method) {
+        RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+
+        if(requestMapping == null) {
+            return RequestMethod.GET;
+        }
+
+        return requestMapping.method();
     }
 }
