@@ -12,7 +12,7 @@
 
 
     <properties>
-        <tomcat.version>8.5.38</tomcat.version>
+        <tomcat.version>8.5.40</tomcat.version>
     </properties>
     <dependencies>
         <dependency>
