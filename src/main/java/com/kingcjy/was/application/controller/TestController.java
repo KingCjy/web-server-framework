@@ -8,6 +8,8 @@ import com.kingcjy.was.core.annotations.web.RequestBody;
 import com.kingcjy.was.core.annotations.web.RequestMapping;
 import com.kingcjy.was.core.annotations.web.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequestMapping("/api")
 public class TestController {
@@ -21,8 +23,8 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String testPost(@RequestBody TestDto dto) {
+    public TestDto testPost(HttpServletRequest request, @RequestBody TestDto dto) {
 
-        return "success";
+        return dto;
     }
 }
