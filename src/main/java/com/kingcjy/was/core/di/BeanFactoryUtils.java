@@ -18,6 +18,8 @@ public class BeanFactoryUtils {
         Reflections reflections = new Reflections(basePackage, "com.kingcjy.was.core");
         Set<Class<?>> annotatedClassList = getTypesAnnotatedWith(reflections, Component.class, Controller.class, Service.class);
 
+        ClassUtils.initClassUtils(annotatedClassList);
+
         Set<Class<?>> configurationClass = getTypesAnnotatedWith(reflections, Configuration.class);
         beanFactory = new BeanFactory(annotatedClassList);
         beanFactory.registerConfigurationClass(configurationClass);
