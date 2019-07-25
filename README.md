@@ -4,10 +4,12 @@
 --
 - Dependency Injection @Inject, @Component, @Controler... (완료)
 - URI Mapping (완료)
-- GET POST PATCH PUT DELETE 구현 (GET 완료)
+- Request Method (GET POST PUT PATCH DELETE) 개발 (완료)
+- Spring의 HandlerMethodArgumentResolver 구현 (완료)
+- PathParameter 개발
 - Configuration With Annotation
 - Database 
-- Transactional
+- Transactional AOP
 
 
 base class: com.kingcjy.was.application.WebApplication

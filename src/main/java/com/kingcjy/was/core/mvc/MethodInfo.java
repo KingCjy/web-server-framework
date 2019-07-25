@@ -1,8 +1,6 @@
 package com.kingcjy.was.core.mvc;
 
 import com.kingcjy.was.core.annotations.web.RequestMethod;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Objects;
 

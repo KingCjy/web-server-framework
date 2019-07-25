@@ -23,7 +23,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public TestDto testPost(HttpServletRequest request, @RequestBody TestDto dto) {
+    public TestDto testPost(HttpServletRequest request,  @RequestBody TestDto dto) {
 
         return dto;
     }
