@@ -16,7 +16,8 @@ public class BeanFactory {
 
     private Map<Class<?>, Object> beanList = Maps.newHashMap();
 
-    BeanFactory(Set<Class<?>> classList) {
+    BeanFactory(Map<Class<?>, Object> beans, Set<Class<?>> classList) {
+        beanList.putAll(beans);
         initializeBeans(classList);
         injectFields();
     }

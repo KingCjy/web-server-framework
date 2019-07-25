@@ -1,4 +1,4 @@
-package com.kingcjy.was.core.di;
+package com.kingcjy.was.core.util;
 
 
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ public class ClassUtils {
 
     private static Class<?>[] classes;
 
-    public static void initClassUtils(Set<Class<?>> classes) {
-        ClassUtils.classes = classes.toArray(new Class[]{});
+    public static void initClassUtils() {
+        ClassUtils.classes = ReflectionUtils.getAllClasses().toArray(new Class<?>[] {});
     }
 
     public static Class<?>[] isAssignableFrom(Class<?> interfaceClass) {

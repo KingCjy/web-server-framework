@@ -1,4 +1,4 @@
-package com.kingcjy.was.application.dto;
+package com.kingcjy.was.application.test;
 
 
 public class TestDto {

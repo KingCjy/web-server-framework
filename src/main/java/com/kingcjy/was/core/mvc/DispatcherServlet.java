@@ -49,6 +49,8 @@ public class DispatcherServlet extends HttpServlet {
         requestMapper = new RequestMapper();
         requestMapper.initMapping(methodList);
 
+
+
 //        objectMapper = beanFactory.getBean(ObjectMapper.class);
 
         objectMapper = new ObjectMapper();

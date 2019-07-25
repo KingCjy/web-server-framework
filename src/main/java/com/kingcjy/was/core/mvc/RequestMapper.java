@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kingcjy.was.core.annotations.web.RequestMapping;
 import com.kingcjy.was.core.annotations.web.RequestMethod;
 import com.kingcjy.was.core.di.BeanFactoryUtils;
-import com.kingcjy.was.core.di.ClassUtils;
+import com.kingcjy.was.core.util.ClassUtils;
 import com.kingcjy.was.core.web.method.HandlerMethod;
 import com.kingcjy.was.core.web.method.support.HandlerMethodArgumentResolver;
 import com.kingcjy.was.core.web.method.support.HandlerMethodArgumentResolverComposite;
@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -37,7 +36,11 @@ public class RequestMapper {
         List<Object> resolvers = new ArrayList<>();
 
         for (Class<?> resolverClass : resolverClasses) {
-            resolvers.add(BeanFactoryUtils.getBeanFactory().getBean(resolverClass));
+            Object object = BeanFactoryUtils.getBeanFactory().getBean(resolverClass);
+            if(object == null) {
+                continue;
+            }
+            resolvers.add(object);
         }
 
         handlerMethodArgumentResolverComposite = new HandlerMethodArgumentResolverComposite();

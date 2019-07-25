@@ -1,7 +1,5 @@
-package com.kingcjy.was.application.controller;
+package com.kingcjy.was.application.test;
 
-import com.kingcjy.was.application.dto.TestDto;
-import com.kingcjy.was.application.service.TestService;
 import com.kingcjy.was.core.annotations.Inject;
 import com.kingcjy.was.core.annotations.web.Controller;
 import com.kingcjy.was.core.annotations.web.RequestBody;

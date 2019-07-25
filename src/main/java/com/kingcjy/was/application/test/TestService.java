@@ -1,6 +1,5 @@
-package com.kingcjy.was.application.service;
+package com.kingcjy.was.application.test;
 
-import com.kingcjy.was.application.dto.TestDto;
 import com.kingcjy.was.core.annotations.web.Service;
 
 @Service
