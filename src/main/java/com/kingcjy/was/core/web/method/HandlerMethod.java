@@ -36,23 +36,43 @@ public class HandlerMethod {
         return result;
     }
 
-    public Object invoke() throws Exception {
-        return method.invoke(instance, getMethodArgumentValues());
+    public Object invoke(Object ...providedArgs) throws Exception {
+        return method.invoke(instance, getMethodArgumentValues(providedArgs));
     }
 
-    private Object[] getMethodArgumentValues() {
+    private Object[] getMethodArgumentValues(Object ...providedArgs) {
 
         Object[] args = new Object[this.parameters.length];
 
         for(int i = 0; i < this.parameters.length; i++) {
             MethodParameter parameter = this.parameters[i];
 
-           if(this.resolvers.supportsParameter(parameter)) {
+            args[i] = findProvidedArgument(parameter, providedArgs);
+
+            if(args[i] != null) {
+                continue;
+            }
+
+            if(this.resolvers.supportsParameter(parameter)) {
                 args[i] = this.resolvers.resolveArgument(parameter);
-           }
+            }
         }
 
         return args;
+    }
+
+    private Object findProvidedArgument(MethodParameter parameter, Object ...providedArgs) {
+        if(providedArgs == null) {
+            return null;
+        }
+
+        for (Object providedArg : providedArgs) {
+            if(parameter.getParameterType().isInstance(providedArg)) {
+                return providedArg;
+            }
+        }
+
+        return null;
     }
 
     public void setResolvers(HandlerMethodArgumentResolverComposite resolvers) {

@@ -68,7 +68,7 @@ public class DispatcherServlet extends HttpServlet {
 
         String result = "";
         try {
-            result = requestMapper.onRequest(requestURI, requestMethod);
+            result = requestMapper.onRequest(httpServletRequest, httpServletResponse);
         } catch (Exception e) {
             e.printStackTrace();
         }

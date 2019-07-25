@@ -11,6 +11,8 @@ import com.kingcjy.was.core.web.method.support.HandlerMethodArgumentResolverComp
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -43,13 +45,16 @@ public class RequestMapper {
     }
 
 
-    public String onRequest(String uri, RequestMethod requestMethod) throws Exception {
-        Method method = findMethod(uri, requestMethod);
+    public String onRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String requestURI = request.getRequestURI();
+        RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod());
+
+        Method method = findMethod(requestURI, requestMethod);
         Object instance = BeanFactoryUtils.getBeanFactory().getBean(method.getDeclaringClass());
         HandlerMethod handlerMethod = new HandlerMethod(instance, method);
         handlerMethod.setResolvers(handlerMethodArgumentResolverComposite);
 
-        return new ObjectMapper().writeValueAsString(handlerMethod.invoke());
+        return new ObjectMapper().writeValueAsString(handlerMethod.invoke(request, response));
     }
 
     private Method findMethod(String uri, RequestMethod method) {

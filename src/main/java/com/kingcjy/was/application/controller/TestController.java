@@ -9,6 +9,7 @@ import com.kingcjy.was.core.annotations.web.RequestMapping;
 import com.kingcjy.was.core.annotations.web.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/api")
@@ -23,7 +24,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public TestDto testPost(HttpServletRequest request,  @RequestBody TestDto dto) {
+    public TestDto testPost(HttpServletRequest request, HttpServletResponse response, @RequestBody TestDto dto) {
 
         return dto;
     }
