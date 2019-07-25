@@ -1,6 +1,7 @@
 package com.kingcjy.was.core.db.jpa.repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleJpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
@@ -22,37 +23,43 @@ public class SimpleJpaRepositoryImpl<T, ID> implements JpaRepository<T, ID> {
     }
 
     @Override
-    public List<T> findById(ID id) {
-        return null;
+    public T findById(ID id) {
+        T entity = (T) entityManager.find(entityClass, id);
+        return entity;
     }
 
     @Override
     public T save(T target) {
-        return null;
+        entityManager.persist(target);
+        return target;
     }
 
     @Override
     public Iterable<T> saveAll(Iterable<T> targets) {
-        return null;
+        List<T> result = new ArrayList<>();
+        targets.forEach(target -> {
+            result.add(this.save(target));
+        });
+        return result;
     }
 
     @Override
     public void deleteById(ID id) {
-
+        T target = this.findById(id);
+        entityManager.remove(target);
     }
 
     @Override
     public void delete(T target) {
-
+        entityManager.remove(target);
     }
 
     @Override
     public void deleteAll() {
+        List<T> targets = this.findAll();
 
-    }
-
-    @Override
-    public long count() {
-        return 0;
+        targets.forEach(target -> {
+            this.delete(target);
+        });
     }
 }

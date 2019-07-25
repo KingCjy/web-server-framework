@@ -28,4 +28,11 @@ public class BoardDto {
             this.updatedDateTime = entity.getUpdatedDateTime().format(formatter);
         }
     }
+
+    @Getter
+    @Setter
+    public static class BoardRequestDto {
+        private String title;
+        private String contents;
+    }
 }

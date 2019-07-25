@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface JpaRepository<T, ID> {
     List<T> findAll();
-    List<T> findById(ID id);
+    T findById(ID id);
 
     T save(T target);
     Iterable<T> saveAll(Iterable<T> targets);
@@ -13,5 +13,4 @@ public interface JpaRepository<T, ID> {
     void delete(T target);
     void deleteAll();
 
-    long count();
 }

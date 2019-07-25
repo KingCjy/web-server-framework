@@ -1,5 +1,7 @@
 package com.kingcjy.was.application.board;
 
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,7 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
+@Data
 @Entity
 @Table(name = "board")
 @NoArgsConstructor
@@ -16,14 +18,20 @@ public class Board {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
-    private String title;
+    public String title;
 
-    private String contents;
+    public String contents;
 
     @CreationTimestamp
-    private LocalDateTime createdDateTime;
+    public LocalDateTime createdDateTime;
     @UpdateTimestamp
-    private LocalDateTime updatedDateTime;
+    public LocalDateTime updatedDateTime;
+
+    @Builder
+    public Board(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
+    }
 }

@@ -1,6 +1,8 @@
 package com.kingcjy.was.core.support.context;
 
+import com.kingcjy.was.application.board.Board;
 import com.kingcjy.was.core.db.jpa.DynamicRepositoryInvocationHandler;
+import com.kingcjy.was.core.db.jpa.JpaEntityManagerFactory;
 import com.kingcjy.was.core.db.jpa.repository.JpaRepository;
 import com.kingcjy.was.core.db.jpa.repository.SimpleJpaRepositoryImpl;
 import com.kingcjy.was.core.di.BeanFactoryUtils;
@@ -9,9 +11,7 @@ import com.kingcjy.was.core.util.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import javax.servlet.*;
 import javax.servlet.annotation.WebListener;
 import java.lang.reflect.ParameterizedType;
@@ -29,17 +29,15 @@ public class ContextInitializeListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+
         ReflectionUtils.initReflectionUtils("com.kingcjy.was.application", "com.kingcjy.was.core");
 
         ClassUtils.initClassUtils();
 
         Class<?>[] repositories = ClassUtils.isAssignableFrom(JpaRepository.class);
-        Map<Class<?>, Object> repositoryBeans = new HashMap<>();
+        Set<Class<?>> entities = ReflectionUtils.getTypesAnnotatedWith(Entity.class);
 
-//        ContextInitializeListener.class.getClassP
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("was");
-        EntityManager entityManager = emf.createEntityManager(); //엔티티 매니저 생성
+        EntityManager entityManager = new JpaEntityManagerFactory(entities.toArray(new Class<?>[] {})).getEntityManager();
 
         Map<Class<?>, Object> beans = new HashMap<>();
         for (Class<?> repository : repositories) {

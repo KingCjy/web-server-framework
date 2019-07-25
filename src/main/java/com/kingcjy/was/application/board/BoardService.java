@@ -18,4 +18,12 @@ public class BoardService {
 
         return boards.stream().map(BoardDto.BoardListResponseDto::new).collect(Collectors.toList());
     }
+
+    public void addBoard(BoardDto.BoardRequestDto dto) {
+        Board board = Board.builder()
+                .title(dto.getTitle())
+                .contents(dto.getContents())
+                .build();
+        boardRepository.save(board);
+    }
 }
