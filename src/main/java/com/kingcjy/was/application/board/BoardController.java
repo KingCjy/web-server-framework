@@ -29,7 +29,15 @@ public class BoardController {
     @RequestMapping("/{id}")
     public Board findBoardById() {
 
-
         return null;
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    public void updateBoardById(@RequestBody BoardDto.BoardRequestDto dto) {
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteBoardById() {
+
     }
 }
