@@ -4,11 +4,11 @@ import com.kingcjy.was.core.annotations.web.RequestMethod;
 
 import java.util.Objects;
 
-public class MethodInfo {
+public class MethodUriInfo {
     private String uri;
     private RequestMethod requestMethod;
 
-    public MethodInfo(String uri, RequestMethod requestMethod) {
+    public MethodUriInfo(String uri, RequestMethod requestMethod) {
         this.uri = uri;
         this.requestMethod = requestMethod;
     }
@@ -33,7 +33,7 @@ public class MethodInfo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MethodInfo that = (MethodInfo) o;
+        MethodUriInfo that = (MethodUriInfo) o;
         return Objects.equals(uri, that.uri) &&
                 requestMethod == that.requestMethod;
     }

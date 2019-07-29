@@ -1,6 +1,5 @@
 package com.kingcjy.was.core.support.context;
 
-import com.kingcjy.was.application.board.Board;
 import com.kingcjy.was.core.db.jpa.DynamicRepositoryInvocationHandler;
 import com.kingcjy.was.core.db.jpa.JpaEntityManagerFactory;
 import com.kingcjy.was.core.db.jpa.repository.JpaRepository;
@@ -14,9 +13,7 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 import javax.servlet.*;
 import javax.servlet.annotation.WebListener;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +23,6 @@ public class ContextInitializeListener implements ServletContextListener {
 
     private static final Logger logger = LoggerFactory.getLogger(ContextInitializeListener.class);
 
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
@@ -34,8 +30,18 @@ public class ContextInitializeListener implements ServletContextListener {
 
         ClassUtils.initClassUtils();
 
+        Map beans = initializeJpaRepository();
+
+        BeanFactoryUtils.initBeanFactory(beans);
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {}
+
+    private Map initializeJpaRepository() {
         Class<?>[] repositories = ClassUtils.isAssignableFrom(JpaRepository.class);
         Set<Class<?>> entities = ReflectionUtils.getTypesAnnotatedWith(Entity.class);
+
 
         EntityManager entityManager = new JpaEntityManagerFactory(entities.toArray(new Class<?>[] {})).getEntityManager();
 
@@ -48,13 +54,6 @@ public class ContextInitializeListener implements ServletContextListener {
             Object instance = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] {repository}, new DynamicRepositoryInvocationHandler(repository, entityManager));
             beans.put(repository, instance);
         }
-
-
-        BeanFactoryUtils.initBeanFactory(beans);
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
+        return beans;
     }
 }

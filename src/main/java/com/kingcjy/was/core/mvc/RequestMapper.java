@@ -19,16 +19,16 @@ import java.util.*;
 public class RequestMapper {
     private static final Logger logger = LoggerFactory.getLogger(RequestMapper.class);
 
-    private Map<MethodInfo, Method> mappingList = new HashMap<>();
+    private Map<MethodUriInfo, Method> mappingList = new HashMap<>();
 
     private HandlerMethodArgumentResolverComposite handlerMethodArgumentResolverComposite;
 
     void initMapping(Collection<Method> methodList) {
         logger.info("Initialized Request Mapping");
         methodList.forEach(method -> {
-            MethodInfo methodInfo = getMethodInfo(method);
-            mappingList.put(methodInfo, method);
-            logger.info("URI : [{}] [{}], Class : [{}], Method : {} mapped", methodInfo.getRequestMethod().name(), methodInfo.getUri() , method.getDeclaringClass().getName(),  method.getName());
+            MethodUriInfo methodUriInfo = getMethodInfo(method);
+            mappingList.put(methodUriInfo, method);
+            logger.info("URI : [{}] [{}], Class : [{}], Method : {} mapped", methodUriInfo.getRequestMethod().name(), methodUriInfo.getUri() , method.getDeclaringClass().getName(),  method.getName());
         });
 
         Class<?>[] resolverClasses = ClassUtils.isAssignableFrom(HandlerMethodArgumentResolver.class);
@@ -61,16 +61,16 @@ public class RequestMapper {
     }
 
     private Method findMethod(String uri, RequestMethod method) {
-        return mappingList.get(new MethodInfo(uri, method));
+        return mappingList.get(new MethodUriInfo(uri, method));
     }
 
-    private MethodInfo getMethodInfo(Method method) {
+    private MethodUriInfo getMethodInfo(Method method) {
         String classRequestUri = getClassRequestUri(method);
         String methodRequestUri = getMethodRequestUri(method);
 
         RequestMethod requestMethod = getRequestMethod(method);
 
-        return new MethodInfo(classRequestUri + methodRequestUri, requestMethod);
+        return new MethodUriInfo(classRequestUri + methodRequestUri, requestMethod);
     }
 
     private String getClassRequestUri(Method method) {
