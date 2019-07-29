@@ -1,10 +1,7 @@
 package com.kingcjy.was.application.board;
 
 import com.kingcjy.was.core.annotations.Inject;
-import com.kingcjy.was.core.annotations.web.Controller;
-import com.kingcjy.was.core.annotations.web.RequestBody;
-import com.kingcjy.was.core.annotations.web.RequestMapping;
-import com.kingcjy.was.core.annotations.web.RequestMethod;
+import com.kingcjy.was.core.annotations.web.*;
 
 import java.util.List;
 
@@ -27,17 +24,18 @@ public class BoardController {
     }
 
     @RequestMapping("/{id}")
-    public Board findBoardById() {
-
-        return null;
+    public BoardDto.BoardListResponseDto findBoardById(@PathVariable(name = "id") Long id) {
+        return boardService.findBoardById(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public void updateBoardById(@RequestBody BoardDto.BoardRequestDto dto) {
+    public void updateBoardById(@PathVariable(name = "id") Long id,
+                                @RequestBody BoardDto.BoardRequestDto dto) {
+        boardService.updateBoardById(id, dto);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteBoardById() {
-
+    public void deleteBoardById(@PathVariable(name = "id") Long id) {
+        boardService.deleteBoardById(id);
     }
 }

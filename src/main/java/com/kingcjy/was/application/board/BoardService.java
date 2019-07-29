@@ -26,4 +26,21 @@ public class BoardService {
                 .build();
         boardRepository.save(board);
     }
+
+    public BoardDto.BoardListResponseDto findBoardById(Long id) {
+        return new BoardDto.BoardListResponseDto(boardRepository.findById(id));
+    }
+
+    public void updateBoardById(Long id, BoardDto.BoardRequestDto dto) {
+        Board board = boardRepository.findById(id);
+
+        board.setTitle(dto.getTitle());
+        board.setContents(dto.getContents());
+
+        boardRepository.save(board);
+    }
+
+    public void deleteBoardById(Long id) {
+        boardRepository.deleteById(id);
+    }
 }

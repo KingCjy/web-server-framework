@@ -61,7 +61,13 @@ public class RequestMapper {
     }
 
     private Method findMethod(String uri, RequestMethod method) {
-        return mappingList.get(new MethodUriInfo(uri, method));
+        for (MethodUriInfo methodUriInfo : mappingList.keySet()) {
+            if(methodUriInfo.isMatch(uri, method) == true) {
+                return mappingList.get(methodUriInfo);
+            }
+        }
+
+        return null;
     }
 
     private MethodUriInfo getMethodInfo(Method method) {
