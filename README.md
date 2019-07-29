@@ -8,8 +8,9 @@
 - Spring의 HandlerMethodArgumentResolver 구현 (완료)
 - PathParameter 개발 (완료)
 - Configuration With Annotation
+- Auto Configuration 
 - Database (JPA 연동 완료)
 - Transactional AOP
-
+- 기본 Response Json 추가
 
 base class: com.kingcjy.was.application.WebApplication
