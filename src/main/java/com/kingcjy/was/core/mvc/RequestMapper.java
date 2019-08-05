@@ -53,6 +53,11 @@ public class RequestMapper {
         RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod());
 
         Method method = findMethod(requestURI, requestMethod);
+
+        if(method == null) {
+            return new ObjectMapper().writeValueAsString(new Object());
+        }
+
         Object instance = BeanFactoryUtils.getBeanFactory().getBean(method.getDeclaringClass());
         HandlerMethod handlerMethod = new HandlerMethod(instance, method);
         handlerMethod.setResolvers(handlerMethodArgumentResolverComposite);

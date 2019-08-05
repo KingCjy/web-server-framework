@@ -12,11 +12,11 @@ public class BoardService {
     @Inject
     private BoardRepository boardRepository;
 
-    public List<BoardDto.BoardListResponseDto> findBoards() {
+    public List<BoardDto.BoardResponseDto> findBoards() {
 
         List<Board> boards = boardRepository.findAll();
 
-        return boards.stream().map(BoardDto.BoardListResponseDto::new).collect(Collectors.toList());
+        return boards.stream().map(BoardDto.BoardResponseDto::new).collect(Collectors.toList());
     }
 
     public void addBoard(BoardDto.BoardRequestDto dto) {
@@ -27,8 +27,8 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public BoardDto.BoardListResponseDto findBoardById(Long id) {
-        return new BoardDto.BoardListResponseDto(boardRepository.findById(id));
+    public BoardDto.BoardResponseDto findBoardById(Long id) {
+        return new BoardDto.BoardResponseDto(boardRepository.findById(id));
     }
 
     public void updateBoardById(Long id, BoardDto.BoardRequestDto dto) {

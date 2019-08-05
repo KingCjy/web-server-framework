@@ -13,8 +13,8 @@ public class BoardController {
     private BoardService boardService;
 
     @RequestMapping("")
-    public List<BoardDto.BoardListResponseDto> findBoards() {
-        List<BoardDto.BoardListResponseDto> dtoList = boardService.findBoards();
+    public List<BoardDto.BoardResponseDto> findBoards() {
+        List<BoardDto.BoardResponseDto> dtoList = boardService.findBoards();
         return dtoList;
     }
 
@@ -24,7 +24,7 @@ public class BoardController {
     }
 
     @RequestMapping("/{id}")
-    public BoardDto.BoardListResponseDto findBoardById(@PathVariable(name = "id") Long id) {
+    public BoardDto.BoardResponseDto findBoardById(@PathVariable(name = "id") Long id) {
         return boardService.findBoardById(id);
     }
 

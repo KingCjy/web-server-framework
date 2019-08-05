@@ -1,6 +1,5 @@
 package com.kingcjy.was.core.di;
 
-import com.google.common.collect.Sets;
 import com.kingcjy.was.core.annotations.Component;
 import com.kingcjy.was.core.annotations.Configuration;
 import com.kingcjy.was.core.annotations.web.Controller;

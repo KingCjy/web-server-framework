@@ -68,16 +68,21 @@ public class WasApplication {
 
             root = getRootFolder(WasApplication.class);
             File additionWebInfClassesFolder = new File(root.getAbsolutePath(), "target/classes");
+            File additionWebInfClassesFolder2 = new File(root.getAbsolutePath(), "src/main/resources");
             WebResourceRoot resources = new StandardRoot(ctx);
 
             WebResourceSet resourceSet;
+            WebResourceSet resourceSet2;
             if (additionWebInfClassesFolder.exists()) {
                 resourceSet = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder.getAbsolutePath(), "/");
+                resourceSet2 = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder2.getAbsolutePath(), "/");
                 logger.info("loading WEB-INF resources from as '" + additionWebInfClassesFolder.getAbsolutePath() + "'");
             } else {
                 resourceSet = new EmptyResourceSet(resources);
+                resourceSet2 = new EmptyResourceSet(resources);
             }
             resources.addPreResources(resourceSet);
+            resources.addPreResources(resourceSet2);
             ctx.setResources(resources);
 
             tomcat.start();

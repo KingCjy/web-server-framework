@@ -10,7 +10,7 @@ public class BoardDto {
 
     @Getter
     @Setter
-    public static class BoardListResponseDto {
+    public static class BoardResponseDto {
         private Long id;
         private String title;
         private String contents;
@@ -18,7 +18,7 @@ public class BoardDto {
         private String createdDateTime;
         private String updatedDateTime;
 
-        public BoardListResponseDto(Board entity) {
+        public BoardResponseDto(Board entity) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             this.id = entity.getId();

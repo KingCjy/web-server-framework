@@ -26,34 +26,9 @@ public class ContextInitializeListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
 
-        ReflectionUtils.initReflectionUtils("com.kingcjy.was.application", "com.kingcjy.was.core");
 
-        ClassUtils.initClassUtils();
-
-        Map beans = initializeJpaRepository();
-
-        BeanFactoryUtils.initBeanFactory(beans);
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {}
-
-    private Map initializeJpaRepository() {
-        Class<?>[] repositories = ClassUtils.isAssignableFrom(JpaRepository.class);
-        Set<Class<?>> entities = ReflectionUtils.getTypesAnnotatedWith(Entity.class);
-
-
-        EntityManager entityManager = new JpaEntityManagerFactory(entities.toArray(new Class<?>[] {})).getEntityManager();
-
-        Map<Class<?>, Object> beans = new HashMap<>();
-        for (Class<?> repository : repositories) {
-
-            if(repository.equals(JpaRepository.class) == true || repository.equals(SimpleJpaRepositoryImpl.class)) {
-                continue;
-            }
-            Object instance = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] {repository}, new DynamicRepositoryInvocationHandler(repository, entityManager));
-            beans.put(repository, instance);
-        }
-        return beans;
-    }
 }
