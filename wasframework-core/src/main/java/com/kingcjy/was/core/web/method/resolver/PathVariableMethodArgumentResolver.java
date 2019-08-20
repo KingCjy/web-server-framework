@@ -2,7 +2,7 @@ package com.kingcjy.was.core.web.method.resolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kingcjy.was.core.annotations.Component;
-import com.kingcjy.was.core.annotations.Inject;
+import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.annotations.web.PathVariable;
 import com.kingcjy.was.core.annotations.web.RequestMapping;
 import com.kingcjy.was.core.web.MethodParameter;
@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 @Component
 public class PathVariableMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-    @Inject
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Override

@@ -1,6 +1,6 @@
 package com.kingcjy.was.core.di;
 
-import com.kingcjy.was.core.annotations.Inject;
+import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.web.WebApplicationInitializer;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -98,7 +98,7 @@ public class BeanFactoryInitializer implements WebApplicationInitializer {
     private void injectFields(BeanFactory beanFactory) {
         for (Object bean : beanFactory.getBeans()) {
             for (Field field : bean.getClass().getDeclaredFields()) {
-                if(field.getAnnotation(Inject.class) != null) {
+                if(field.getAnnotation(Autowired.class) != null) {
                     field.setAccessible(true);
                     try {
                         field.set(bean, beanFactory.getBean(field.getType().getName()));

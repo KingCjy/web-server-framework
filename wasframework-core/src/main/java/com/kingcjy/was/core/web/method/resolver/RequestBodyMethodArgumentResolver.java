@@ -3,7 +3,7 @@ package com.kingcjy.was.core.web.method.resolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kingcjy.was.core.annotations.Component;
-import com.kingcjy.was.core.annotations.Inject;
+import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.annotations.web.RequestBody;
 import com.kingcjy.was.core.converter.HttpMessageConverter;
 import com.kingcjy.was.core.web.MethodParameter;
@@ -15,7 +15,7 @@ import java.io.IOException;
 @Component
 public class RequestBodyMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
-    @Inject
+    @Autowired
     private ObjectMapper objectMapper;
 
     private HttpMessageConverter converter;

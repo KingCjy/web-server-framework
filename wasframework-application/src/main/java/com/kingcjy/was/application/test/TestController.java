@@ -1,6 +1,6 @@
 package com.kingcjy.was.application.test;
 
-import com.kingcjy.was.core.annotations.Inject;
+import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.annotations.web.RequestMapping;
 import com.kingcjy.was.core.annotations.web.RestController;
 
@@ -8,7 +8,7 @@ import com.kingcjy.was.core.annotations.web.RestController;
 @RequestMapping("/api")
 public class TestController {
 
-    @Inject
+    @Autowired
     private TestService testService;
 
     @RequestMapping("/test")
