@@ -8,4 +8,6 @@ public interface BeanFactory {
     void addBean(String name, Class<?> type, Object instance);
 
     Object[] getBeans();
+
+    void injectFields();
 }

@@ -1,4 +1,4 @@
-package com.kingcjy.was.core.db.jpa.repository;
+package com.kingcjy.was.data.core.support.repository;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;

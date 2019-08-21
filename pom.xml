@@ -11,6 +11,7 @@
     <modules>
         <module>wasframework-core</module>
         <module>wasframework-application</module>
+        <module>wasframework-data-jpa</module>
     </modules>
 
     <build>

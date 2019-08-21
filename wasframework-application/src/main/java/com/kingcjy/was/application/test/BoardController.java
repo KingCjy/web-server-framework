@@ -6,13 +6,13 @@ import com.kingcjy.was.core.annotations.web.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class TestController {
+public class BoardController {
 
     @Autowired
-    private TestService testService;
+    private BoardService boardService;
 
     @RequestMapping("/test")
     public String test() {
-        return testService.test();
+        return boardService.test();
     }
 }

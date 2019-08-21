@@ -1,7 +1,9 @@
 package com.kingcjy.was.core.di;
 
+import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.util.Assert;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,5 +38,21 @@ public class DefaultBeanFactory implements BeanFactory {
     @Override
     public Object[] getBeans() {
         return beans.values().toArray(new Object[]{});
+    }
+
+    @Override
+    public void injectFields() {
+        for (Object bean : getBeans()) {
+            for (Field field : bean.getClass().getDeclaredFields()) {
+                if(field.getAnnotation(Autowired.class) != null) {
+                    field.setAccessible(true);
+                    try {
+                        field.set(bean, getBean(field.getType().getName()));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

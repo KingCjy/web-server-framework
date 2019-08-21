@@ -1,6 +1,6 @@
-package com.kingcjy.was.core.db.jpa;
+package com.kingcjy.was.data.core.support;
 
-import com.kingcjy.was.core.db.jpa.config.HibernatePersistenceUnitInfo;
+import com.kingcjy.was.data.core.support.config.HibernatePersistenceUnitInfo;
 import org.h2.jdbcx.JdbcDataSource;
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;

@@ -1,4 +1,4 @@
-package com.kingcjy.was.core.db.jpa.config;
+package com.kingcjy.was.data.core.support.config;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
 

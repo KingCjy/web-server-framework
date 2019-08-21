@@ -102,7 +102,6 @@ public class BeanFactoryInitializer implements WebApplicationInitializer {
                     field.setAccessible(true);
                     try {
                         field.set(bean, beanFactory.getBean(field.getType().getName()));
-                        logger.info(bean.getClass() + " class " + field.getName() + " field injected");
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
