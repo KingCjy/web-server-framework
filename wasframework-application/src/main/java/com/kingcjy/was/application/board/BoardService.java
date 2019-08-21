@@ -1,8 +1,7 @@
-package com.kingcjy.was.application.test;
+package com.kingcjy.was.application.board;
 
 import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.annotations.web.Service;
-import com.kingcjy.was.core.http.ResponseEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package com.kingcjy.was.application.test;
+package com.kingcjy.was.application.board;
 
 import com.kingcjy.was.core.annotations.Autowired;
 import com.kingcjy.was.core.annotations.web.RequestMapping;
@@ -15,7 +15,7 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @RequestMapping("/test")
+    @RequestMapping("/board")
     public ResponseEntity<List<BoardDto.BoardResponseDto>> findAllBoards() {
         List<BoardDto.BoardResponseDto> dtoList = boardService.findAllBoards();
 

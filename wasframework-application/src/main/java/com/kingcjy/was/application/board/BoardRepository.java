@@ -1,4 +1,4 @@
-package com.kingcjy.was.application.test;
+package com.kingcjy.was.application.board;
 
 import com.kingcjy.was.data.core.support.annotation.Query;
 import com.kingcjy.was.data.core.support.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.kingcjy.was.application.test;
+package com.kingcjy.was.application.board;
 
 import lombok.AccessLevel;
 import lombok.Builder;

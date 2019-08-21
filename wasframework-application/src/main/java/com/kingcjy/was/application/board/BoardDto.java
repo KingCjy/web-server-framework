@@ -1,6 +1,5 @@
-package com.kingcjy.was.application.test;
+package com.kingcjy.was.application.board;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class BoardDto {
