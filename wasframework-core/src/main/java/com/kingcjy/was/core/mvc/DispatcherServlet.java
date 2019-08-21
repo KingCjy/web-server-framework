@@ -57,7 +57,7 @@ public class DispatcherServlet extends HttpServlet {
             e.printStackTrace();
         }
 
-        if(result instanceof ResponseEntity) {
+        if(ResponseEntity.class.equals(handlerMethod.getReturnType())) {
             ResponseEntity responseEntity = (ResponseEntity) result;
 
             response.setContentType(MediaType.APPLICATION_JSON);

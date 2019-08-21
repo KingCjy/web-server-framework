@@ -41,6 +41,10 @@ public class HandlerMethod {
         return method.invoke(instance, getMethodArgumentValues(providedArgs));
     }
 
+    public Class<?> getReturnType() {
+        return method.getReturnType();
+    }
+
     private Object[] getMethodArgumentValues(Object ...providedArgs) {
 
         Object[] args = new Object[this.parameters.length];

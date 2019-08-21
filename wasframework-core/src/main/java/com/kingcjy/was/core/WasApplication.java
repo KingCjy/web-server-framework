@@ -71,28 +71,45 @@ public class WasApplication {
             File additionWebInfClassesFolder2 = new File(root2.getAbsolutePath(), "src/main/resources");
             File additionWebInfClassesFolder3 = new File(root.getAbsolutePath(), "target/classes");
             File additionWebInfClassesFolder4 = new File(root.getAbsolutePath(), "src/main/resources");
+
+            Class clazz1 = ClassLoader.getSystemClassLoader().loadClass("com.kingcjy.was.data.core.support.JpaRepositoryFactory");
+
+            File root3 = null;
+            if(clazz1 != null) {
+                root3 = getRootFolder(clazz1);
+            }
+            File additionWebInfClassesFolder5 = new File(root3.getAbsolutePath(), "target/classes");
+
+
+
             WebResourceRoot resources = new StandardRoot(ctx);
 
             WebResourceSet resourceSet;
             WebResourceSet resourceSet2;
             WebResourceSet resourceSet3;
             WebResourceSet resourceSet4;
+            WebResourceSet resourceSet5 = null;
             if (additionWebInfClassesFolder.exists()) {
                 resourceSet = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder.getAbsolutePath(), "/");
                 resourceSet2 = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder2.getAbsolutePath(), "/");
                 resourceSet3 = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder3.getAbsolutePath(), "/");
                 resourceSet4 = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder4.getAbsolutePath(), "/");
+                if(clazz1 != null) {
+                    resourceSet5 = new DirResourceSet(resources, "/WEB-INF/classes", additionWebInfClassesFolder5.getAbsolutePath(), "/");
+                }
                 logger.info("loading WEB-INF resources from as '" + additionWebInfClassesFolder.getAbsolutePath() + "'");
             } else {
                 resourceSet = new EmptyResourceSet(resources);
                 resourceSet2 = new EmptyResourceSet(resources);
                 resourceSet3 = new EmptyResourceSet(resources);
                 resourceSet4 = new EmptyResourceSet(resources);
+                resourceSet5 = new EmptyResourceSet(resources);
             }
             resources.addPreResources(resourceSet);
             resources.addPreResources(resourceSet2);
             resources.addPreResources(resourceSet3);
             resources.addPreResources(resourceSet4);
+            resources.addPreResources(resourceSet5);
             ctx.setResources(resources);
 
             tomcat.start();

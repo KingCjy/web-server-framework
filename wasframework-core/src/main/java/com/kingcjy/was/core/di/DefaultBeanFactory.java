@@ -17,7 +17,6 @@ public class DefaultBeanFactory implements BeanFactory {
     @Override
     public Object getBean(String name) {
         Object bean = beans.get(name);
-        Assert.notNull(bean, "bean name " + name + " is not registered");
 
         return beans.get(name);
     }
@@ -25,7 +24,6 @@ public class DefaultBeanFactory implements BeanFactory {
     @Override
     public <T> T getBean(String name, Class<?> requiredType) {
         Object bean = beans.get(name);
-        Assert.notNull(bean, "bean name " + name + " is not registered");
 
         return (T) beans.get(name);
     }

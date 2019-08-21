@@ -1,5 +1,6 @@
 package com.kingcjy.was.core.web;
 
+import com.kingcjy.was.core.util.AnnotationOrderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,7 @@ public class WasServletContainerInitializer implements ServletContainerInitializ
 
         logger.info(initializers.size() + " Was WebApplicationInitializers detected on classpath");
 
+        initializers = AnnotationOrderUtil.sort(initializers);
         for(WebApplicationInitializer webApplicationInitializer : initializers) {
             webApplicationInitializer.onStartup(servletContext);
         }

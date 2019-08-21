@@ -1,9 +1,14 @@
 package com.kingcjy.was.application.board;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.format.DateTimeFormatter;
 
 public class BoardDto {
 
+    @Getter
+    @Setter
     public static class BoardResponseDto {
         private Long id;
         private String title;
@@ -20,5 +25,12 @@ public class BoardDto {
             this.createdDateTime = entity.getCreatedDateTime().format(formatter);
             this.updatedDateTime = entity.getUpdatedDateTime().format(formatter);
         }
+    }
+
+    @Getter
+    @Setter
+    public static class BoardRequestDto {
+        private String title;
+        private String contents;
     }
 }

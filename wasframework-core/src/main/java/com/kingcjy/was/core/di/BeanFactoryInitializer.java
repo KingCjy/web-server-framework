@@ -1,6 +1,7 @@
 package com.kingcjy.was.core.di;
 
 import com.kingcjy.was.core.annotations.Autowired;
+import com.kingcjy.was.core.annotations.Order;
 import com.kingcjy.was.core.web.WebApplicationInitializer;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -21,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+@Order(1)
 public class BeanFactoryInitializer implements WebApplicationInitializer {
 
     private static Logger logger = LoggerFactory.getLogger(BeanFactoryInitializer.class);

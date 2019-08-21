@@ -51,9 +51,13 @@ public class AnnotationHandlerMapper {
     }
 
     public HandlerMethod findHandlerMethod(String uri, RequestMethod requestMethod) {
-        HandlerMethod handlerMethod = handlerMethods.get(new URIInfo(uri, requestMethod));
+        for (URIInfo uriInfo : handlerMethods.keySet()) {
+            if (uriInfo.isMatch(uri, requestMethod) == true) {
+                return handlerMethods.get(uriInfo);
+            }
+        }
 
-        return handlerMethod;
+        return null;
     }
 
     private void initializeHandlerMethodArgumentResolverComposite() {

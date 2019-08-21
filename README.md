@@ -15,11 +15,35 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @RequestMapping(board)
+    @RequestMapping("/boards")
     public ResponseEntity<List<BoardDto.BoardResponseDto>> findAllBoards() {
         List<BoardDto.BoardResponseDto> dtoList = boardService.findAllBoards();
-
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/boards/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> findBoardById(@PathVariable(name = "id") Long id) {
+        BoardDto.BoardResponseDto dto = boardService.findBoardById(id);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/boards", method = RequestMethod.POST)
+    public ResponseEntity<?> addBoard(@RequestBody BoardDto.BoardRequestDto dto) {
+        boardService.addBoard(dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/boards/{id}", method = RequestMethod.PATCH)
+    public ResponseEntity<?> updateBoardById(@PathVariable(name = "id", required = true) Long id,
+                                            @RequestBody BoardDto.BoardRequestDto dto) {
+        boardService.updateBoard(id, dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/boards/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteBoardById(@PathVariable(name = "id") Long id) {
+        boardService.deleteBoard(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 ```
@@ -34,7 +58,35 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     public List<BoardDto.BoardResponseDto> findAllBoards() {
-        return boardRepository.findAllBoardsOrderByIdDesc().stream().map(BoardDto.BoardResponseDto::new).collect(Collectors.toList());
+        return boardRepository.findAll().stream().map(BoardDto.BoardResponseDto::new).collect(Collectors.toList());
+    }
+
+    public BoardDto.BoardResponseDto findBoardById(Long id) {
+        Board board = boardRepository.findById(id);
+
+        return new BoardDto.BoardResponseDto(board);
+    }
+
+    public void addBoard(BoardDto.BoardRequestDto dto) {
+        Board board = Board.builder()
+                .title(dto.getTitle())
+                .contents(dto.getContents())
+                .build();
+
+        boardRepository.save(board);
+    }
+
+    public void updateBoard(Long id, BoardDto.BoardRequestDto dto) {
+        Board board = boardRepository.findById(id);
+
+        board.setTitle(dto.getTitle());
+        board.setContents(dto.getContents());
+
+        boardRepository.save(board);
+    }
+
+    public void deleteBoard(Long id) {
+        boardRepository.deleteById(id);
     }
 }
 ```
@@ -65,6 +117,14 @@ public class Board {
         this.title = title;
         this.contents = contents;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContents(String contents) {
+        this.contents = contents;
+    }
 }
 ```
 ##### Repository
@@ -86,6 +146,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 ```java
 public class BoardDto {
 
+    @Getter
+    @Setter
     public static class BoardResponseDto {
         private Long id;
         private String title;
@@ -102,6 +164,13 @@ public class BoardDto {
             this.createdDateTime = entity.getCreatedDateTime().format(formatter);
             this.updatedDateTime = entity.getUpdatedDateTime().format(formatter);
         }
+    }
+
+    @Getter
+    @Setter
+    public static class BoardRequestDto {
+        private String title;
+        private String contents;
     }
 }
 ```
@@ -147,7 +216,8 @@ Comment
 
 ### TODOS
 
-- Repository AutoConfiguration
-- Repository interface Proxy
+- ~~Repository AutoConfiguration~~
+- ~~Repository interface Proxy~~
 - Transactional Annotation
+- Query Annotation
 - AOP
