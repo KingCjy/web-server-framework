@@ -7,6 +7,7 @@ import com.kingcjy.was.core.http.ResponseEntity;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api")
 public class BoardController {

@@ -41,11 +41,9 @@ public class DynamicRepositoryInvocationHandler implements InvocationHandler {
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
-
             transaction.rollback();
         }
 
         return returnValue;
     }
-
 }

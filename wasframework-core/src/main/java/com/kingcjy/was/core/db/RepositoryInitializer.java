@@ -7,9 +7,6 @@ import com.kingcjy.was.core.web.WebApplicationInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
@@ -36,10 +33,6 @@ public class RepositoryInitializer implements WebApplicationInitializer {
             }
 
             beanFactory.injectFields();
-
-            if(repositorySupport != null) {
-                break;
-            }
         }
     }
 }
