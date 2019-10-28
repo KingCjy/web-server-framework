@@ -1,5 +1,7 @@
 package me.kingcjy.was.core.web;
 
+import me.kingcjy.was.core.di.AnnotationApplicationContext;
+import me.kingcjy.was.core.utils.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,12 +17,11 @@ public class DispatcherServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
 
-
-
     @Override
     public void init() {
+        String basePackage = FileUtils.getBasePackage();
 
-
+        AnnotationApplicationContext annotationApplicationContext = new AnnotationApplicationContext(basePackage);
 
         logger.debug("dispatcher servlert initialized");
     }

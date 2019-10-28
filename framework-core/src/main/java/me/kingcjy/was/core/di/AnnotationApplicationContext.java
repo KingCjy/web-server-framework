@@ -1,6 +1,7 @@
 package me.kingcjy.was.core.di;
 
 import me.kingcjy.was.core.annotations.Autowired;
+import me.kingcjy.was.core.annotations.Component;
 import me.kingcjy.was.core.utils.MyReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +19,22 @@ public class AnnotationApplicationContext extends ApplicationContext {
     }
 
     private void initializeBeanFactory(String basePackage) {
-        Set<Class> classes = MyReflectionUtils.findAnnotatedClasses(basePackage);
+        Set<Class> classes = MyReflectionUtils.findAnnotatedClasses(basePackage, Component.class);
         createInstances(classes);
     }
 
     private void createInstances(Set<Class> classes) {
         classes.forEach(targetClass -> {
             try {
+                if(isComponentClass(targetClass) == false) {
+                    return;
+                }
+
                 Object instance = targetClass.getConstructor().newInstance();
 
                 this.beans.put(targetClass.getName(), instance);
+
+                logger.debug(targetClass.getName() + " bean initialized");
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 logger.error(targetClass.getName() + " hasn't no argument constructor");
                 e.printStackTrace();
@@ -35,6 +42,10 @@ public class AnnotationApplicationContext extends ApplicationContext {
         });
 
         this.injectInstanceFields();
+    }
+
+    private boolean isComponentClass(Class<?> targetClass) {
+        return (targetClass.isInterface() || targetClass.isAnnotation()) == false;
     }
 
     private void injectInstanceFields() {
@@ -52,7 +63,9 @@ public class AnnotationApplicationContext extends ApplicationContext {
 
             field.setAccessible(true);
             try {
-                field.set(instance, this.beans.get(instance.getClass().getName()));
+                field.set(instance, this.beans.get(field.getClass().getName()));
+
+                logger.debug(instance.getClass().getName() + " " + field.getName() + " bean injected");
             } catch (IllegalAccessException e) {
                 logger.error("no bean named " + field.getName());
                 e.printStackTrace();

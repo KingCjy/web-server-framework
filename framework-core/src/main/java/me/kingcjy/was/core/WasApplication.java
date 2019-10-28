@@ -24,6 +24,7 @@ public class WasApplication {
             File applicationRoot = getRootFolder(baseClass);
 
             System.setProperty("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE", "true");
+            System.setProperty("was.basePackage", baseClass.getPackage().getName());
 
             Tomcat tomcat = new Tomcat();
             Path tempPath = Files.createTempDirectory("tomcat-base-dir");
