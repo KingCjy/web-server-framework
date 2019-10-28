@@ -20,10 +20,9 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() {
         String basePackage = FileUtils.getBasePackage();
-
         AnnotationApplicationContext annotationApplicationContext = new AnnotationApplicationContext(basePackage);
 
-        logger.debug("dispatcher servlert initialized");
+        logger.debug("dispatcher servlet initialized");
     }
 
     @Override
