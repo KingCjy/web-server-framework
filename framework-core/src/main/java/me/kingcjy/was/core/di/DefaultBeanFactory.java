@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class DefaultListenableBeanFactory implements BeanFactory, BeanDefinitionRegistry {
+public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 
     private Set<BeanDefinition> beanDefinitions = new HashSet<>();
     private Map<String, Object> beans = new HashMap<>();
@@ -86,18 +86,22 @@ public class DefaultListenableBeanFactory implements BeanFactory, BeanDefinition
 
             Field[] fields = beanDefinition.getBeanClass().getDeclaredFields();
             for (Field field : fields) {
-                if(field.getAnnotation(Autowired.class) == null) {
-                    continue;
-                }
-
-                field.setAccessible(true);
-                field.set(instance, getBeanInstance(field.getType()));
+                injectFields(instance, field);
             }
 
             beans.put(beanDefinition.getBeanClass().getName(), instance);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
+    }
+
+    private void injectFields(Object instance, Field field) throws IllegalAccessException {
+        if(field.getAnnotation(Autowired.class) == null) {
+            return;
+        }
+
+        field.setAccessible(true);
+        field.set(instance, getBeanInstance(field.getType()));
     }
 
     private BeanDefinition getDefinitionByClass(Class<?> targetClass) {

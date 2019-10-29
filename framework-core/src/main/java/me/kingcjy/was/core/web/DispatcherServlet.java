@@ -5,7 +5,7 @@ import me.kingcjy.was.core.annotations.Component;
 import me.kingcjy.was.core.annotations.Configuration;
 import me.kingcjy.was.core.di.definition.AnnotationBeanDefinition;
 import me.kingcjy.was.core.di.definition.DefaultBeanDefinition;
-import me.kingcjy.was.core.di.DefaultListenableBeanFactory;
+import me.kingcjy.was.core.di.DefaultBeanFactory;
 import me.kingcjy.was.core.utils.FileUtils;
 import me.kingcjy.was.core.utils.MyReflectionUtils;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ public class DispatcherServlet extends HttpServlet {
     public void init() {
         String basePackage = FileUtils.getBasePackage();
 
-        DefaultListenableBeanFactory beanFactory = new DefaultListenableBeanFactory();
+        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
 
         Set<Class> classes = MyReflectionUtils.findAnnotatedClasses(basePackage, Component.class);
         Set<Class> configureClasses = MyReflectionUtils.findAnnotatedClasses(basePackage, Configuration.class);
