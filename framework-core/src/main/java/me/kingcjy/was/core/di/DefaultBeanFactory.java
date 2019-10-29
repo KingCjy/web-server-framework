@@ -8,13 +8,13 @@ import me.kingcjy.was.core.di.definition.BeanDefinitionRegistry;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 
     private Set<BeanDefinition> beanDefinitions = new HashSet<>();
     private Map<String, Object> beans = new HashMap<>();
-    private Set<Class<?>> beanClasses = new HashSet<>();
 
     public void instantiateBeans() {
         for (BeanDefinition beanDefinition : beanDefinitions) {
@@ -96,12 +96,10 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
     }
 
     private void injectFields(Object instance, Field field) throws IllegalAccessException {
-        if(field.getAnnotation(Autowired.class) == null) {
-            return;
+        if(field.isAnnotationPresent(Autowired.class)) {
+            field.setAccessible(true);
+            field.set(instance, getBeanInstance(field.getType()));
         }
-
-        field.setAccessible(true);
-        field.set(instance, getBeanInstance(field.getType()));
     }
 
     private BeanDefinition getDefinitionByClass(Class<?> targetClass) {
@@ -113,7 +111,9 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 
     @Override
     public void registerDefinition(BeanDefinition beanDefinition) {
-        beanDefinitions.add(beanDefinition);
+        if(beanDefinition.getBeanClass().isInterface() == false && Modifier.isAbstract(beanDefinition.getBeanClass().getModifiers()) == false) {
+            beanDefinitions.add(beanDefinition);
+        }
     }
 
     @Override

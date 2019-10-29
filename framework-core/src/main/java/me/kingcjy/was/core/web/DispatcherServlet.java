@@ -3,6 +3,8 @@ package me.kingcjy.was.core.web;
 import me.kingcjy.was.core.annotations.Bean;
 import me.kingcjy.was.core.annotations.Component;
 import me.kingcjy.was.core.annotations.Configuration;
+import me.kingcjy.was.core.di.BeanFactory;
+import me.kingcjy.was.core.di.BeanFactoryAware;
 import me.kingcjy.was.core.di.definition.AnnotationBeanDefinition;
 import me.kingcjy.was.core.di.definition.DefaultBeanDefinition;
 import me.kingcjy.was.core.di.DefaultBeanFactory;
@@ -20,39 +22,26 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-@WebServlet(name = "dispatcher", urlPatterns = {"/*"}, loadOnStartup = 1)
-public class DispatcherServlet extends HttpServlet {
+public class DispatcherServlet extends HttpServlet implements BeanFactoryAware {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
+
+    private BeanFactory beanFactory;
+
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
 
     @Override
     public void init() {
         String basePackage = FileUtils.getBasePackage();
-
-        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
-
-        Set<Class> classes = MyReflectionUtils.findAnnotatedClasses(basePackage, Component.class);
-        Set<Class> configureClasses = MyReflectionUtils.findAnnotatedClasses(basePackage, Configuration.class);
-
-        classes.stream().filter(targetClass -> targetClass.isAnnotation() == false).forEach(targetClass -> beanFactory.registerDefinition(new DefaultBeanDefinition(targetClass)));
-        configureClasses.stream().filter(targetClass -> targetClass.isAnnotation() == false).forEach(targetClass -> {
-            Method[] methods = targetClass.getMethods();
-            for (Method method : methods) {
-                if(method.getAnnotation(Bean.class) == null) {
-                    return;
-                }
-                beanFactory.registerDefinition(new AnnotationBeanDefinition(targetClass, method));
-            }
-        });
-        beanFactory.instantiateBeans();
-
-
 
         logger.debug("dispatcher servlet initialized");
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        logger.info("aa");
     }
 }
