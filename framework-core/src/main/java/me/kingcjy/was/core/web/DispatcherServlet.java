@@ -8,6 +8,9 @@ import me.kingcjy.was.core.di.BeanFactoryAware;
 import me.kingcjy.was.core.di.definition.AnnotationBeanDefinition;
 import me.kingcjy.was.core.di.definition.DefaultBeanDefinition;
 import me.kingcjy.was.core.di.DefaultBeanFactory;
+import me.kingcjy.was.core.mvc.HandlerExecution;
+import me.kingcjy.was.core.mvc.HandlerMapping;
+import me.kingcjy.was.core.mvc.method.HandlerMethod;
 import me.kingcjy.was.core.utils.FileUtils;
 import me.kingcjy.was.core.utils.MyReflectionUtils;
 import org.slf4j.Logger;
@@ -22,15 +25,20 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-public class DispatcherServlet extends HttpServlet implements BeanFactoryAware {
+public class DispatcherServlet extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
 
-    private BeanFactory beanFactory;
+    private HandlerMapping handlerMapping;
 
-    @Override
-    public void setBeanFactory(BeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
+    private HandlerExecution handlerExecution;
+
+    public void setHandlerMapping(HandlerMapping handlerMapping) {
+        this.handlerMapping = handlerMapping;
+    }
+
+    public void setHandlerExecution(HandlerExecution handlerExecution) {
+        this.handlerExecution = handlerExecution;
     }
 
     @Override
@@ -42,6 +50,13 @@ public class DispatcherServlet extends HttpServlet implements BeanFactoryAware {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        logger.info("aa");
+        HandlerMethod handlerMethod = handlerMapping.getHandler(request);
+        if(handlerMethod == null) {
+            response.setStatus(404);
+            return;
+        }
+
+        Object result = handlerExecution.execute();
+
     }
 }

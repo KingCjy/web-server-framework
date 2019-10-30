@@ -47,4 +47,9 @@ public class AnnotationConfigApplicationContext implements ApplicationContext {
     public <T> T getBean(String name, Class<?> returnType) {
         return this.beanFactory.getBean(name, returnType);
     }
+
+    @Override
+    public Object[] getBeans() {
+        return this.beanFactory.getBeans();
+    }
 }

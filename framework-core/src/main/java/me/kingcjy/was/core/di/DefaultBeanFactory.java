@@ -130,4 +130,9 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
     public <T> T getBean(String name, Class<?> returnType) {
         return (T) beans.get(name);
     }
+
+    @Override
+    public Object[] getBeans() {
+        return beans.values().toArray(new Object[] {});
+    }
 }
