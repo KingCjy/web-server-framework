@@ -1,4 +1,29 @@
-Java Web Server Framework <small><small><small>for study</small></small></small>
+Java Web Server Framework <small><small><small>for study version 3</small></small></small>
+---
+
+## Comment
+
+스프링 부트와 비슷하게 사용할 수 있게 만든 프레임워크입니다.
+
+사용 라이브러리
+- Tomcat8
+- Hibernate 5
+- Servlet 3
+- Fasterxml
+- H2 Database
+
+
+### TODOS
+- ~~BeanFactory~~
+- ~~HandlerMethodArgumentResolver~~
+- ~~AnnotationHandler~~
+- Jpa Repository AutoConfiguration
+- Repository interface Proxy
+- Transactional Annotation
+- Query Annotation
+- AOP
+- QueryDsl
+- Junit Runner
 ---
 
 #### How To Use
@@ -200,24 +225,3 @@ public class WebConfig {
     }
 }
 ```
-
-
-Comment
----
-스프링 부트와 비슷하게 사용할 수 있게 만든 프레임워크입니다.
-
-사용 라이브러리
-- Tomcat8
-- Hibernate 5
-- Servlet 3
-- Fasterxml
-- H2 Database
-
-
-### TODOS
-
-- ~~Repository AutoConfiguration~~
-- ~~Repository interface Proxy~~
-- Transactional Annotation
-- Query Annotation
-- AOP
