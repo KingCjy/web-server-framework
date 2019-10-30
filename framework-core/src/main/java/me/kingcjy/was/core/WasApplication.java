@@ -102,8 +102,13 @@ public class WasApplication {
             File classFolder = new File(file.getAbsolutePath(), "target/classes");
             File resourceFolder = new File(file.getAbsolutePath(), "src/main/resources");
 
-            resources.add(new DirResourceSet(resourceRoot, "/WEB-INF/classes", classFolder.getAbsolutePath(), "/"));
-            resources.add(new DirResourceSet(resourceRoot, "/WEB-INF/classes", resourceFolder.getAbsolutePath(), "/"));
+            if(classFolder.exists()) {
+                resources.add(new DirResourceSet(resourceRoot, "/WEB-INF/classes", classFolder.getAbsolutePath(), "/"));
+            }
+
+            if(resourceFolder.exists()) {
+                resources.add(new DirResourceSet(resourceRoot, "/WEB-INF/classes", resourceFolder.getAbsolutePath(), "/"));
+            }
         }
 
         return resources;

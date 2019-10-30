@@ -1,11 +1,11 @@
 package me.kingcjy.was.core.mvc;
 
-import me.kingcjy.was.core.mvc.method.HandlerMethod;
+import me.kingcjy.was.core.web.method.InvocableHandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface HandlerMapping {
     void initialize();
 
-    HandlerMethod getHandler(HttpServletRequest request);
+    InvocableHandlerMethod getHandler(HttpServletRequest request);
 }

@@ -1,4 +1,4 @@
-package me.kingcjy.was.core.di.definition;
+package me.kingcjy.was.core.beans.definition;
 
 public class DefaultBeanDefinition implements BeanDefinition {
 
@@ -16,5 +16,12 @@ public class DefaultBeanDefinition implements BeanDefinition {
     @Override
     public boolean isAnnotatedDefinition() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "DefaultBeanDefinition{" +
+                "beanClass=" + beanClass +
+                '}';
     }
 }

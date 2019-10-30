@@ -1,4 +1,4 @@
-package me.kingcjy.was.core.di.definition;
+package me.kingcjy.was.core.beans.definition;
 
 import java.util.Set;
 

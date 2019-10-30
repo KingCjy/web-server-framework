@@ -1,6 +1,6 @@
-package me.kingcjy.was.core.mvc.resolver;
+package me.kingcjy.was.core.web.method.resolver;
 
-import me.kingcjy.was.core.mvc.method.MethodParameter;
+import me.kingcjy.was.core.web.method.MethodParameter;
 
 public interface HandlerMethodArgumentResolver {
     boolean supportsParameter(MethodParameter parameter);

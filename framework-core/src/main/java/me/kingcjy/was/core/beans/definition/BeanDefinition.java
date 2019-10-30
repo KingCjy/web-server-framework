@@ -1,4 +1,4 @@
-package me.kingcjy.was.core.di.definition;
+package me.kingcjy.was.core.beans.definition;
 
 public interface BeanDefinition {
     Class<?> getBeanClass();

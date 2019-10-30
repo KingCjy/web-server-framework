@@ -1,9 +1,9 @@
-package me.kingcjy.was.core.di;
+package me.kingcjy.was.core.beans.factory;
 
 import me.kingcjy.was.core.annotations.Autowired;
-import me.kingcjy.was.core.di.definition.AnnotationBeanDefinition;
-import me.kingcjy.was.core.di.definition.BeanDefinition;
-import me.kingcjy.was.core.di.definition.BeanDefinitionRegistry;
+import me.kingcjy.was.core.beans.definition.AnnotationBeanDefinition;
+import me.kingcjy.was.core.beans.definition.BeanDefinition;
+import me.kingcjy.was.core.beans.definition.BeanDefinitionRegistry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -45,10 +45,10 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
         if(method.getParameterCount() == 0) {
             return method.invoke(getBeanInstance(method.getDeclaringClass()));
         }
-        return createParameterMEthodInstance(method);
+        return createParameterMethodInstance(method);
     }
 
-    private Object createParameterMEthodInstance(Method method) throws InvocationTargetException, IllegalAccessException {
+    private Object createParameterMethodInstance(Method method) throws InvocationTargetException, IllegalAccessException {
         Class<?>[] parameterTypes = method.getParameterTypes();
         List<Object> params = new ArrayList<>();
 

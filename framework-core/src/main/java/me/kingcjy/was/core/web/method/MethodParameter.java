@@ -1,4 +1,4 @@
-package me.kingcjy.was.core.mvc.method;
+package me.kingcjy.was.core.web.method;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

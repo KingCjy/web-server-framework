@@ -1,4 +1,4 @@
-package me.kingcjy.was.core.mvc.method;
+package me.kingcjy.was.core.web.method;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +32,16 @@ public class HandlerMethod {
         return result;
     }
 
-    public Object invoke(Object ... arguments) throws Exception {
-        return method.invoke(instance, arguments);
+    protected Method getMethod() {
+        return this.method;
+    }
+
+    protected Object getInstance() {
+        return this.instance;
+    }
+
+    protected MethodParameter[] getMethodParameters() {
+        return parameters;
     }
 
     public Class<?> getReturnType() {

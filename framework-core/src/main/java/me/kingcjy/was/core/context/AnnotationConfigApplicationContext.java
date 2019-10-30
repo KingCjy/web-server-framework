@@ -1,9 +1,8 @@
 package me.kingcjy.was.core.context;
 
-import me.kingcjy.was.core.di.AnnotationBeanDefinitionReader;
-import me.kingcjy.was.core.di.BeanFactory;
-import me.kingcjy.was.core.di.ClassPathBeanDefinitionScanner;
-import me.kingcjy.was.core.di.DefaultBeanFactory;
+import me.kingcjy.was.core.beans.AnnotationBeanDefinitionReader;
+import me.kingcjy.was.core.beans.ClassPathBeanDefinitionScanner;
+import me.kingcjy.was.core.beans.factory.DefaultBeanFactory;
 
 public class AnnotationConfigApplicationContext implements ApplicationContext {
 

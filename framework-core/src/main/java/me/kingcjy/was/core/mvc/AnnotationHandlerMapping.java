@@ -3,9 +3,10 @@ package me.kingcjy.was.core.mvc;
 import me.kingcjy.was.core.annotations.web.RequestMapping;
 import me.kingcjy.was.core.annotations.web.RequestMethod;
 import me.kingcjy.was.core.annotations.web.RestController;
-import me.kingcjy.was.core.di.BeanFactory;
-import me.kingcjy.was.core.di.BeanFactoryAware;
-import me.kingcjy.was.core.mvc.method.HandlerMethod;
+import me.kingcjy.was.core.beans.factory.BeanFactory;
+import me.kingcjy.was.core.beans.factory.BeanFactoryAware;
+import me.kingcjy.was.core.web.method.InvocableHandlerMethod;
+import me.kingcjy.was.core.web.method.resolver.DefaultHandlerMethodFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +22,16 @@ public class AnnotationHandlerMapping implements HandlerMapping, BeanFactoryAwar
     private static final Logger logger = LoggerFactory.getLogger(AnnotationHandlerMapping.class);
 
     private BeanFactory beanFactory;
-    private Map<HandlerKey, HandlerMethod> handlers = new HashMap<>();
+    private Map<HandlerKey, InvocableHandlerMethod> handlers = new HashMap<>();
 
-    public AnnotationHandlerMapping(BeanFactory beanFactory) {
+
+    private DefaultHandlerMethodFactory handlerMethodFactory;
+
+    public AnnotationHandlerMapping(BeanFactory beanFactory, DefaultHandlerMethodFactory defaultHandlerMethodFactory) {
         this.beanFactory = beanFactory;
+        this.handlerMethodFactory = defaultHandlerMethodFactory;
+
+        initialize();
     }
 
     @Override
@@ -44,7 +51,8 @@ public class AnnotationHandlerMapping implements HandlerMapping, BeanFactoryAwar
         for (Method method : requestMappingMethods) {
             HandlerKey handlerKey = createHandlerKey(method);
 
-            handlers.put(handlerKey, new HandlerMethod(controllers.get(method.getDeclaringClass()), method));
+            InvocableHandlerMethod handlerMethod = handlerMethodFactory.createInvocableHandlerMethod(controllers.get(method.getDeclaringClass()), method);
+            handlers.put(handlerKey, handlerMethod);
             logger.debug("register RequestHandler uri : {}, method: {}", handlerKey.getUri(), method);
         }
     }
@@ -59,7 +67,7 @@ public class AnnotationHandlerMapping implements HandlerMapping, BeanFactoryAwar
     }
 
     private String findClassUri(Class<?> targetClass) {
-        if(targetClass.isAnnotationPresent(RequestMapping.class) == false) {
+        if(targetClass.isAnnotationPresent(RequestMapping.class)) {
             RequestMapping requestMapping = targetClass.getAnnotation(RequestMapping.class);
             return requestMapping.value();
         }
@@ -104,7 +112,7 @@ public class AnnotationHandlerMapping implements HandlerMapping, BeanFactoryAwar
     }
 
     @Override
-    public HandlerMethod getHandler(HttpServletRequest request) {
+    public InvocableHandlerMethod getHandler(HttpServletRequest request) {
         String uri = request.getRequestURI();
         RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod().toUpperCase());
         return handlers.get(new HandlerKey(uri, requestMethod));

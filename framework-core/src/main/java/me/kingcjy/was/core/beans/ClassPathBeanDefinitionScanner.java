@@ -1,8 +1,8 @@
-package me.kingcjy.was.core.di;
+package me.kingcjy.was.core.beans;
 
 import me.kingcjy.was.core.annotations.Component;
-import me.kingcjy.was.core.di.definition.BeanDefinitionRegistry;
-import me.kingcjy.was.core.di.definition.DefaultBeanDefinition;
+import me.kingcjy.was.core.beans.definition.BeanDefinitionRegistry;
+import me.kingcjy.was.core.beans.definition.DefaultBeanDefinition;
 import me.kingcjy.was.core.utils.MyReflectionUtils;
 
 import java.util.Set;

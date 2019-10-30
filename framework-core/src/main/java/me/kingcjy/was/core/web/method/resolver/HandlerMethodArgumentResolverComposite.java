@@ -1,6 +1,6 @@
-package me.kingcjy.was.core.mvc.resolver;
+package me.kingcjy.was.core.web.method.resolver;
 
-import me.kingcjy.was.core.mvc.method.MethodParameter;
+import me.kingcjy.was.core.web.method.MethodParameter;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,11 +15,11 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
     private final Map<MethodParameter, HandlerMethodArgumentResolver> argumentResolverCache =
             new ConcurrentHashMap<>(256);
 
-    public void addHandlerMethodArgumentResolver(HandlerMethodArgumentResolver handlerMethodArgumentResolver) {
+    public void addResolver(HandlerMethodArgumentResolver handlerMethodArgumentResolver) {
         argumentResolvers.add(handlerMethodArgumentResolver);
     }
 
-    public void addHandlerMethodArgumentResolver(HandlerMethodArgumentResolver ...handlerMethodArgmentResolvers) {
+    public void addResolver(HandlerMethodArgumentResolver ...handlerMethodArgmentResolvers) {
         argumentResolvers.addAll(Arrays.asList(handlerMethodArgmentResolvers));
     }
 
