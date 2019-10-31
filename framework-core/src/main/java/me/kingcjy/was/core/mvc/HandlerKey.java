@@ -17,6 +17,10 @@ public class HandlerKey {
         return uri;
     }
 
+    public boolean matches(String uri, RequestMethod requestMethod) {
+        return false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
