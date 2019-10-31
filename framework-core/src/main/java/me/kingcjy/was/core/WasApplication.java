@@ -85,8 +85,9 @@ public class WasApplication {
 
         File applicationRoot = getRootFolder(baseClass);
         File coreRoot = getRootFolder(WasApplication.class);
+        File dataJpaRoot = getDataJpaRootFolder();
 
-        List<WebResourceSet> resources = findResources(resourceRoot, applicationRoot, coreRoot);
+        List<WebResourceSet> resources = findResources(resourceRoot, applicationRoot, coreRoot, dataJpaRoot);
 
         for (WebResourceSet resource : resources) {
             resourceRoot.addPreResources(resource);
@@ -95,10 +96,25 @@ public class WasApplication {
         return resourceRoot;
     }
 
+    private static File getDataJpaRootFolder() {
+        try {
+            Class dataJpaClass = ClassLoader.getSystemClassLoader().loadClass("me.kingcjy.was.data.core.support.RepositoryComponentProvider");
+
+            return getRootFolder(dataJpaClass);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
     private static List<WebResourceSet> findResources(WebResourceRoot resourceRoot, File ...files) {
         List<WebResourceSet> resources = new ArrayList<>();
 
         for (File file : files) {
+
+            if(file == null) {
+                continue;
+            }
+
             File classFolder = new File(file.getAbsolutePath(), "target/classes");
             File resourceFolder = new File(file.getAbsolutePath(), "src/main/resources");
 

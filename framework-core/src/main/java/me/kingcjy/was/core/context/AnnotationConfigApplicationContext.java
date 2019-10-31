@@ -1,19 +1,25 @@
 package me.kingcjy.was.core.context;
 
 import me.kingcjy.was.core.beans.AnnotationBeanDefinitionReader;
+import me.kingcjy.was.core.beans.BeanDefinitionScannerProviderFactory;
 import me.kingcjy.was.core.beans.ClassPathBeanDefinitionScanner;
 import me.kingcjy.was.core.beans.factory.DefaultBeanFactory;
+import me.kingcjy.was.core.beans.provider.BeanDefinitionScannerProvider;
+
+import java.util.Set;
 
 public class AnnotationConfigApplicationContext implements ApplicationContext {
 
     private AnnotationBeanDefinitionReader reader;
-    private ClassPathBeanDefinitionScanner scanner;
+    private Set<BeanDefinitionScannerProvider> scanners;
     private DefaultBeanFactory beanFactory;
 
     public AnnotationConfigApplicationContext() {
         this.beanFactory = new DefaultBeanFactory();
         reader = new AnnotationBeanDefinitionReader(beanFactory);
-        scanner = new ClassPathBeanDefinitionScanner(beanFactory);
+
+        scanners = new BeanDefinitionScannerProviderFactory().getBeanDefinitionScannerProviders(beanFactory);
+        scanners.add(new ClassPathBeanDefinitionScanner(beanFactory));
     }
 
     public AnnotationConfigApplicationContext(Class<?> baseClass) {
@@ -22,7 +28,7 @@ public class AnnotationConfigApplicationContext implements ApplicationContext {
         String basePackage = baseClass.getPackage().getName();
 
         reader.register(basePackage);
-        scanner.scan(basePackage);
+        scanners.forEach(scanner -> scanner.scan(basePackage));
 
         beanFactory.instantiateBeans();
     }

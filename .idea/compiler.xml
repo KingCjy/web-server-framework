@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="framework-core" />
         <module name="framework-application" />
+        <module name="framework-data-jpa" />
       </profile>
     </annotationProcessing>
   </component>

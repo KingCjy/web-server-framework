@@ -35,6 +35,5 @@ public class ApplicationContextInitializer implements WebApplicationInitializer 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

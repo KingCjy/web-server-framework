@@ -24,5 +24,6 @@
     <modules>
         <module>framework-core</module>
         <module>framework-application</module>
+        <module>framework-data-jpa</module>
     </modules>
 </project>
