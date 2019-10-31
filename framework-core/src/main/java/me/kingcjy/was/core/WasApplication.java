@@ -98,7 +98,7 @@ public class WasApplication {
 
     private static File getDataJpaRootFolder() {
         try {
-            Class dataJpaClass = ClassLoader.getSystemClassLoader().loadClass("me.kingcjy.was.data.core.support.RepositoryComponentProvider");
+            Class dataJpaClass = ClassLoader.getSystemClassLoader().loadClass("me.kingcjy.was.data.core.RepositoryComponentProvider");
 
             return getRootFolder(dataJpaClass);
         } catch (ClassNotFoundException e) {
