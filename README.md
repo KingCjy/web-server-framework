@@ -3,27 +3,19 @@ Java Web Server Framework <small><small><small>for study version 3</small></smal
 
 ## Comment
 
-스프링 부트와 비슷하게 사용할 수 있게 만든 프레임워크입니다.
-
-사용 라이브러리
-- Tomcat8
-- Hibernate 5
-- Servlet 3
-- Fasterxml
-- H2 Database
-
+스프링 프레임워크 따라만들기 3번째 버전입니다.
+이전 버전은 [이곳](https://github.com/KingCjy/web-server-framework)에서 확인하실 수 있습니다.
 
 ### TODOS
 - ~~BeanFactory~~
 - ~~HandlerMethodArgumentResolver~~
 - ~~AnnotationHandler~~
+- ~~BeanDefinitionScannerProvider~~
 - Jpa Repository AutoConfiguration
 - Repository interface Proxy
 - Transactional Annotation
 - Query Annotation
 - AOP
-- QueryDsl
-- Junit Runner
 ---
 
 #### How To Use
