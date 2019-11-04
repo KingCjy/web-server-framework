@@ -78,13 +78,7 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
             return;
         }
 
-        if(beanDefinition.isAnnotatedDefinition()) {
-            initAnnotationBean(beanDefinition);
-        } else if(beanDefinition.isInstanceBeanDefinition()) {
-            initInstanceBean(beanDefinition);
-        } else {
-            initDefaultBean(beanDefinition);
-        }
+        instantiateDefinition(beanDefinition);
     }
 
     private void initInstanceBean(BeanDefinition beanDefinition) {
@@ -127,10 +121,8 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 
     @Override
     public void registerDefinition(BeanDefinition beanDefinition) {
-        if(beanDefinition.isInstanceBeanDefinition()) {
-            beanDefinitions.add(beanDefinition);
-        }
-        else if(beanDefinition.getBeanClass().isInterface() == false && Modifier.isAbstract(beanDefinition.getBeanClass().getModifiers()) == false) {
+        if(beanDefinition.isInstanceBeanDefinition()
+                || (beanDefinition.getBeanClass().isInterface() == false && Modifier.isAbstract(beanDefinition.getBeanClass().getModifiers()) == false)) {
             beanDefinitions.add(beanDefinition);
         }
     }
