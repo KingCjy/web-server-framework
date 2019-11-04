@@ -1,5 +1,8 @@
 package me.kingcjy.was.core.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import me.kingcjy.was.core.http.HttpStatus;
+import me.kingcjy.was.core.http.MediaType;
 import me.kingcjy.was.core.mvc.HandlerMapping;
 import me.kingcjy.was.core.web.method.InvocableHandlerMethod;
 import me.kingcjy.was.core.utils.FileUtils;
@@ -38,7 +41,11 @@ public class DispatcherServlet extends HttpServlet {
         }
 
         Object result = handlerMethod.invoke(request, response);
-        logger.debug(request.getRequestURI() + " " +  request.getMethod());
 
+        response.setContentType(MediaType.APPLICATION_JSON);
+        response.setCharacterEncoding("utf8");
+        response.setStatus(HttpStatus.OK.value());
+        response.getWriter().write(new ObjectMapper().writeValueAsString(result));
+        logger.debug(request.getRequestURI() + " " +  request.getMethod());
     }
 }

@@ -1,16 +1,19 @@
 package me.kingcjy.was.core.mvc;
 
 import me.kingcjy.was.core.annotations.web.RequestMethod;
+import me.kingcjy.was.core.utils.pattern.PathPatternParser;
 
 import java.util.Objects;
 
 public class HandlerKey {
     private String uri;
     private RequestMethod requestMethod;
+    private PathPatternParser parser;
 
     public HandlerKey(String uri, RequestMethod requestMethod) {
         this.uri = uri;
         this.requestMethod = requestMethod;
+        parser = new PathPatternParser(uri);
     }
 
     public String getUri() {
@@ -18,7 +21,7 @@ public class HandlerKey {
     }
 
     public boolean matches(String uri, RequestMethod requestMethod) {
-        return false;
+        return parser.matches(uri) && this.requestMethod.equals(requestMethod);
     }
 
     @Override

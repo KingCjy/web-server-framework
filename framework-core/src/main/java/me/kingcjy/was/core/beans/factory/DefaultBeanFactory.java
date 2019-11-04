@@ -4,6 +4,7 @@ import me.kingcjy.was.core.annotations.Autowired;
 import me.kingcjy.was.core.beans.definition.AnnotationBeanDefinition;
 import me.kingcjy.was.core.beans.definition.BeanDefinition;
 import me.kingcjy.was.core.beans.definition.BeanDefinitionRegistry;
+import me.kingcjy.was.core.beans.definition.InstanceBeanDefinition;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -75,9 +76,20 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 
         if(beanDefinition.isAnnotatedDefinition()) {
             initAnnotationBean(beanDefinition);
+        } else if(beanDefinition.isInstanceBeanDefinition()) {
+            initInstanceBean(beanDefinition);
         } else {
             initDefaultBean(beanDefinition);
         }
+    }
+
+    private void initInstanceBean(BeanDefinition beanDefinition) {
+        InstanceBeanDefinition instanceBeanDefinition = (InstanceBeanDefinition) beanDefinition;
+
+        Class<?> instanceClass = instanceBeanDefinition.getBeanClass();
+        Object instance = instanceBeanDefinition.getInstance();
+
+        beans.put(instanceClass.getName(), instance);
     }
 
     private void initDefaultBean(BeanDefinition beanDefinition) {
@@ -89,7 +101,7 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
                 injectFields(instance, field);
             }
 
-            beans.put(beanDefinition.getBeanClass().getName(), instance);
+            beans.put(beanDefinition.getName(), instance);
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
@@ -111,7 +123,10 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
 
     @Override
     public void registerDefinition(BeanDefinition beanDefinition) {
-        if(beanDefinition.getBeanClass().isInterface() == false && Modifier.isAbstract(beanDefinition.getBeanClass().getModifiers()) == false) {
+        if(beanDefinition.isInstanceBeanDefinition()) {
+            beanDefinitions.add(beanDefinition);
+        }
+        else if(beanDefinition.getBeanClass().isInterface() == false && Modifier.isAbstract(beanDefinition.getBeanClass().getModifiers()) == false) {
             beanDefinitions.add(beanDefinition);
         }
     }

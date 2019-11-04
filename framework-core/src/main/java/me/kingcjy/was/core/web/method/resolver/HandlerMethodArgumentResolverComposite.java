@@ -2,6 +2,7 @@ package me.kingcjy.was.core.web.method.resolver;
 
 import me.kingcjy.was.core.web.method.MethodParameter;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -29,8 +30,8 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter) {
-        return getArgumentResolver(parameter);
+    public Object resolveArgument(MethodParameter parameter, HttpServletRequest request) {
+        return getArgumentResolver(parameter).resolveArgument(parameter, request);
     }
 
     private HandlerMethodArgumentResolver getArgumentResolver(MethodParameter parameter) {

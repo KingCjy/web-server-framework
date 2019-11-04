@@ -26,7 +26,13 @@ public class ClassPathBeanDefinitionScanner implements BeanDefinitionScannerProv
         Set<Class> classes = MyReflectionUtils.findAnnotatedClasses(basePackage, Component.class);
 
         for (Class targetClass : classes) {
-            beanDefinitionRegistry.registerDefinition(new DefaultBeanDefinition(targetClass));
+            Component component = (Component) targetClass.getAnnotation(Component.class);
+
+            if(component != null && component.value().isEmpty() == false) {
+                beanDefinitionRegistry.registerDefinition(new DefaultBeanDefinition(targetClass, component.value()));
+            } else {
+                beanDefinitionRegistry.registerDefinition(new DefaultBeanDefinition(targetClass));
+            }
         }
     }
 }

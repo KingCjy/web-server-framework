@@ -4,6 +4,7 @@ import me.kingcjy.was.core.web.method.resolver.HandlerMethodArgumentResolverComp
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -21,8 +22,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
         this.resolvers = argumentResolvers;
     }
 
-    public Object invoke(Object... providedArguments) {
-        Object[] args = getMethodArgumentValues(providedArguments);
+    public Object invoke(HttpServletRequest request, Object... providedArguments) {
+        Object[] args = getMethodArgumentValues(request, providedArguments);
         try {
             return getMethod().invoke(getInstance(), args);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -31,7 +32,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
         }
     }
 
-    private Object[] getMethodArgumentValues(Object ...providedArgs) {
+    private Object[] getMethodArgumentValues(HttpServletRequest request, Object ...providedArgs) {
         MethodParameter[] parameters = getMethodParameters();
         Object[] args = new Object[parameters.length];
 
@@ -45,7 +46,7 @@ public class InvocableHandlerMethod extends HandlerMethod {
             }
 
             if(this.resolvers.supportsParameter(parameter)) {
-                args[i] = this.resolvers.resolveArgument(parameter);
+                args[i] = this.resolvers.resolveArgument(parameter, request);
             }
         }
 

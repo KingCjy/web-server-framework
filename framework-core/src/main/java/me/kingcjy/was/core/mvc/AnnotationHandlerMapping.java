@@ -12,10 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class AnnotationHandlerMapping implements HandlerMapping, BeanFactoryAware {
 
@@ -115,6 +112,12 @@ public class AnnotationHandlerMapping implements HandlerMapping, BeanFactoryAwar
     public InvocableHandlerMethod getHandler(HttpServletRequest request) {
         String uri = request.getRequestURI();
         RequestMethod requestMethod = RequestMethod.valueOf(request.getMethod().toUpperCase());
-        return handlers.get(new HandlerKey(uri, requestMethod));
+        Optional<HandlerKey> handlerKeyOptional = handlers.keySet().stream()
+                .filter(handler -> handler.matches(uri, requestMethod))
+                .findAny();
+        if(handlerKeyOptional.isPresent() == false) {
+            return null;
+        }
+        return handlers.get(handlerKeyOptional.get());
     }
 }
