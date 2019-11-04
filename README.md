@@ -11,11 +11,9 @@ Java Web Server Framework <small><small><small>for study version 3</small></smal
 - ~~HandlerMethodArgumentResolver~~
 - ~~AnnotationHandler~~
 - ~~BeanDefinitionScannerProvider~~
-- Jpa Repository AutoConfiguration
-- Repository interface Proxy
-- Transactional Annotation
+- ~~Jpa Repository AutoConfiguration~~
+- ~~Repository interface Proxy~~
 - Query Annotation
-- AOP
 ---
 
 #### How To Use
