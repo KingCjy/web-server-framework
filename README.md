@@ -4,7 +4,6 @@ Java Web Server Framework <small><small><small>for study version 3</small></smal
 ## Comment
 
 스프링 프레임워크 따라만들기 3번째 버전입니다.
-이전 버전은 [이곳](https://github.com/KingCjy/web-server-framework)에서 확인하실 수 있습니다.
 
 ### TODOS
 - ~~BeanFactory~~
@@ -18,10 +17,10 @@ Java Web Server Framework <small><small><small>for study version 3</small></smal
 
 #### How To Use
 
-[Sample Code](https://github.com/KingCjy/web-server-framework/tree/master/wasframework-application)
+[Sample Code](https://github.com/KingCjy/web-server-framework/tree/master/framework-application)
 
 ##### Controller
-`wasframework-application/src/main/java/com.kingcjy.was.application.board.BoardController.java`
+`framework-application/src/main/java/com.kingcjy.was.application.board.BoardController.java`
 ```Java
 @RestController
 @RequestMapping("/api")
@@ -63,7 +62,7 @@ public class BoardController {
 }
 ```
 ##### Service
-`wasframework-application/src/main/java/com.kingcjy.was.application.board.BoardService.java`
+`framework-application/src/main/java/com.kingcjy.was.application.board.BoardService.java`
 
 ```java
 @Service
@@ -106,7 +105,7 @@ public class BoardService {
 }
 ```
 ##### Entity
-`wasframework-application/src/main/java/com.kingcjy.was.application.board.Board.java`
+`framework-application/src/main/java/com.kingcjy.was.application.board.Board.java`
 
 ```java
 @Getter
@@ -144,7 +143,7 @@ public class Board {
 ```
 ##### Repository
 
-`wasframework-application/src/main/java/com.kingcjy.was.application.board.BoardRepository.java`
+`framework-application/src/main/java/com.kingcjy.was.application.board.BoardRepository.java`
 
 ```java
 public interface BoardRepository extends JpaRepository<Board, Long> {
@@ -156,7 +155,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 ##### DTO
 
-`wasframework-application/src/main/java/com.kingcjy.was.application.board.BoardDto.java`
+`framework-application/src/main/java/com.kingcjy.was.application.board.BoardDto.java`
 
 ```java
 public class BoardDto {
@@ -192,7 +191,7 @@ public class BoardDto {
 
 ##### Main Class
 
-`wasframework-application/src/main/java/com.kingcjy.was.application.Application.java`
+`framework-application/src/main/java/com.kingcjy.was.application.Application.java`
 
 ```java
 public class Application {
@@ -204,7 +203,7 @@ public class Application {
 
 ##### Configuration Sample
 
-`wasframework-application/src/main/java/com.kingcjy.was.application.config.WebConfig.java`
+`framework-application/src/main/java/com.kingcjy.was.application.config.WebConfig.java`
 ```java
 @Configuration
 public class WebConfig {
