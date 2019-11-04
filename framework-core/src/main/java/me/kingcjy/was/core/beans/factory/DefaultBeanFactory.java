@@ -28,6 +28,10 @@ public class DefaultBeanFactory implements BeanFactory, BeanDefinitionRegistry {
             initAnnotationBean(beanDefinition);
             return;
         }
+        if(beanDefinition.isInstanceBeanDefinition()) {
+            initInstanceBean(beanDefinition);
+            return;
+        }
         initDefaultBean(beanDefinition);
     }
 

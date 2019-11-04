@@ -13,13 +13,14 @@ import javax.persistence.metamodel.Metamodel;
 import java.util.List;
 import java.util.Map;
 
-@Component(value = "javax.persistence.EntityManager")
-public class LocalContainerEntityManagerFactoryBean implements EntityManagerProxy {
+public class LocalEntityManagerProxy implements EntityManagerProxy {
 
     private ThreadLocal<EntityManager> entityManagerThreadLocal = new ThreadLocal<>();
-
-    @Autowired
     private EntityManagerFactory entityManagerFactory;
+
+    public LocalEntityManagerProxy(EntityManagerFactory entityManagerFactory) {
+        this.entityManagerFactory = entityManagerFactory;
+    }
 
     @Override
     public EntityManager getTargetEntityManager() {

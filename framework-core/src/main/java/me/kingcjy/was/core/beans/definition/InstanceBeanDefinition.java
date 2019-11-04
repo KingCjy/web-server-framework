@@ -5,7 +5,11 @@ public class InstanceBeanDefinition extends DefaultBeanDefinition {
     private Object instance;
 
     public InstanceBeanDefinition(Class<?> beanClass, Object instance) {
-        super(beanClass);
+        this(beanClass, instance, beanClass.getName());
+    }
+
+    public InstanceBeanDefinition(Class<?> beanClass, Object instance, String name) {
+        super(beanClass, name);
         this.instance = instance;
     }
 

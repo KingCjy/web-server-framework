@@ -5,12 +5,15 @@ import me.kingcjy.was.core.beans.definition.InstanceBeanDefinition;
 import me.kingcjy.was.core.beans.provider.BeanDefinitionScannerProvider;
 import me.kingcjy.was.core.utils.MyReflectionUtils;
 import me.kingcjy.was.data.core.config.JpaEntityManagerFactory;
+import me.kingcjy.was.data.core.repository.DynamicRepositoryInvocationHandler;
 import me.kingcjy.was.data.core.repository.JpaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.lang.reflect.Proxy;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,9 +34,23 @@ public class RepositoryComponentProvider implements BeanDefinitionScannerProvide
         Set<Class> repositories = findRepositoryInterfaces(basePackage);
 
         JpaEntityManagerFactory jpaEntityManagerFactory = new JpaEntityManagerFactory(entities.toArray(new Class[]{}));
+        EntityManagerFactory entityManagerFactory = jpaEntityManagerFactory.getEntityManagerFactory();
+        EntityManager entityManager = new LocalEntityManagerProxy(entityManagerFactory);
 
         registry.registerDefinition(new InstanceBeanDefinition(EntityManagerFactory.class, jpaEntityManagerFactory.getEntityManagerFactory()));
-        logger.debug(getClass().getName() + " scanned");
+        registry.registerDefinition(new InstanceBeanDefinition(EntityManager.class, entityManager));
+
+        initializeRepositories(repositories, entityManager);
+    }
+
+    private void initializeRepositories(Set<Class> repositories, EntityManager entityManager) {
+        repositories.forEach(repository -> {
+            Object instance = Proxy.newProxyInstance(
+                    getClass().getClassLoader(),
+                    new Class[] { repository },
+                    new DynamicRepositoryInvocationHandler(repository, entityManager));
+            registry.registerDefinition(new InstanceBeanDefinition(repository, instance));
+        });
     }
 
     private Set<Class> findEntities(String basePackage) {
