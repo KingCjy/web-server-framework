@@ -49,4 +49,13 @@ public class BoardController {
         boardService.deleteBoard(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Autowired
+    private BoardRepository boardRepository;
+
+    @RequestMapping("/test")
+    public ResponseEntity<?> findAll() {
+        List<Board> dto = boardRepository.findAllBoardsOrderByIdDesc();
+        return new ResponseEntity(dto, HttpStatus.OK);
+    }
 }

@@ -1,16 +1,19 @@
 package me.kingcjy.was.data.core.repository;
 
+import me.kingcjy.was.data.core.repository.query.QueryExecutor;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.lang.reflect.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DynamicRepositoryInvocationHandler implements InvocationHandler {
 
     private EntityManager entityManager;
     private SimpleJpaRepository jpaRepository;
+    private Map<Method, QueryExecutor> queryExecutors = new HashMap<>();
+
 
     public DynamicRepositoryInvocationHandler(Class<?> repositoryType, EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -18,6 +21,14 @@ public class DynamicRepositoryInvocationHandler implements InvocationHandler {
         Type entityType = ((ParameterizedType) repositoryType.getGenericInterfaces()[0]).getActualTypeArguments()[0];
 
         this.jpaRepository = new SimpleJpaRepository((Class<?>) entityType, entityManager);
+
+        initializeQueryExecutors(repositoryType);
+    }
+
+    public void initializeQueryExecutors(Class<?> repositoryType) {
+        for (Method method : repositoryType.getDeclaredMethods()) {
+            queryExecutors.put(method, new QueryExecutor(method));
+        }
     }
 
     @Override
@@ -28,7 +39,11 @@ public class DynamicRepositoryInvocationHandler implements InvocationHandler {
         try {
             transaction.begin();
 
-            returnValue = method.invoke(jpaRepository, args);
+            if(isJpaRepositoryMethod(method)) {
+                returnValue = executeSimpleJpaRepositoryMethod(method, args);
+            } else {
+                returnValue = findQueryExecutor(method).execute(this.entityManager, args);
+            }
 
             transaction.commit();
         } catch (Exception e) {
@@ -37,5 +52,22 @@ public class DynamicRepositoryInvocationHandler implements InvocationHandler {
         }
 
         return returnValue;
+    }
+
+    private Object executeSimpleJpaRepositoryMethod(Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        return method.invoke(jpaRepository, args);
+    }
+
+    private boolean isJpaRepositoryMethod(Method method) {
+        try {
+            SimpleJpaRepository.class.getDeclaredMethod(method.getName(), method.getParameterTypes());
+            return true;
+        } catch (NoSuchMethodException e) {
+            return false;
+        }
+    }
+
+    private QueryExecutor findQueryExecutor(Method method) {
+        return queryExecutors.get(method);
     }
 }
