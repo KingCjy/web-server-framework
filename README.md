@@ -12,7 +12,10 @@ Java Web Server Framework <small><small><small>for study version 3</small></smal
 - ~~BeanDefinitionScannerProvider~~
 - ~~Jpa Repository AutoConfiguration~~
 - ~~Repository interface Proxy~~
-- Query Annotation
+- ~~Query Annotation~~
+- Query Parameter Binding
+- QueryDsl
+- Auto Generate Document(Spring REST Docs)
 ---
 
 #### How To Use
@@ -148,7 +151,7 @@ public class Board {
 ```java
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    @Query("SELECT b FROM board ORDER BY b.id DESC")
+    @Query("SELECT b FROM Board AS b ORDER BY b.id DESC")
     List<Board> findAllBoardsOrderByIdDesc();
 }
 ```
