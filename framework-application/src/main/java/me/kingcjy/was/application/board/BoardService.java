@@ -13,7 +13,7 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     public List<BoardDto.BoardResponseDto> findAllBoards() {
-        return boardRepository.findAll().stream().map(BoardDto.BoardResponseDto::new).collect(Collectors.toList());
+        return boardRepository.findAllBoardsOrderByIdDesc().stream().map(BoardDto.BoardResponseDto::new).collect(Collectors.toList());
     }
 
     public BoardDto.BoardResponseDto findBoardById(Long id) {
