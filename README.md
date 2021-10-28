@@ -1,4 +1,4 @@
-Java Web Server Framework <small><small><small>for study version 3</small></small></small>
+Java Web Server Framework
 ---
 ### TODOS
 - ~~BeanFactory~~
