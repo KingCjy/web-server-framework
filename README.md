@@ -8,9 +8,6 @@ Java Web Server Framework <small><small><small>for study version 3</small></smal
 - ~~Jpa Repository AutoConfiguration~~
 - ~~Repository interface Proxy~~
 - ~~Query Annotation~~
-- Query Parameter Binding
-- QueryDsl
-- Auto Generate Document(Spring REST Docs)
 ---
 
 #### How To Use
