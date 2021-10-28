@@ -1,10 +1,5 @@
 Java Web Server Framework <small><small><small>for study version 3</small></small></small>
 ---
-
-## Comment
-
-스프링 프레임워크 따라만들기 3번째 버전입니다.
-
 ### TODOS
 - ~~BeanFactory~~
 - ~~HandlerMethodArgumentResolver~~
